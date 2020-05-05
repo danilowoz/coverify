@@ -6,7 +6,7 @@
   "main": "index.js",
   "repository": "git@github.com:danilowoz/coverify.git",
   "author": "Danilo Woznica <danilowoz@gmail.com>",
-  "license": "MIT",
+  "license": "MPL-2.0",
   "scripts": {
     "dev": "next",
     "build": "next build",
