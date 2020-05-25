@@ -38,8 +38,8 @@ const dispatchError = (message: string) => ({
  */
 const useGetInformationOfUser = () => {
   const dispatch = useDispatch()
-  const dependencies = useContext(DependenciesContext)
-  const spotifyService = dependencies.get('spotify')
+  const { dependencies, destroy } = useContext(DependenciesContext)
+  const spotifyService = dependencies.spotify
   const token = useSelector(selectors.getToken)
 
   /**
@@ -60,12 +60,12 @@ const useGetInformationOfUser = () => {
       const userData = await spotifyService.getUserInformation()
       dispatch({ type: types.USER_INFO_SUCCESS, payload: userData })
     } catch (err) {
-      dependencies.destroy('spotify')
+      destroy('spotify')
       dispatch(dispatchError(String(err?.response?.status ?? 'general')))
     }
 
     return
-  }, [dependencies, dispatch, spotifyService])
+  }, [destroy, dispatch, spotifyService])
 
   /**
    * Effect with dependencies

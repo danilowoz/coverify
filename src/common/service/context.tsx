@@ -54,12 +54,14 @@ interface ContextMethods {
   ) => ReturnOfContext<S>
   get: <S extends DependenciesKeys>(service: S) => ReturnOfContext<S>
   destroy: (service: DependenciesKeys) => boolean
+  dependencies: State
 }
 
 const DependenciesContext = createContext<ContextMethods>({
   create: () => false,
   destroy: () => false,
   get: () => false,
+  dependencies: {},
 })
 
 /**
@@ -140,7 +142,9 @@ const DependenciesProvider: React.FC = ({ children }) => {
    * Context
    */
   return (
-    <DependenciesContext.Provider value={{ create, destroy, get }}>
+    <DependenciesContext.Provider
+      value={{ create, destroy, get, dependencies: initialized }}
+    >
       {children}
     </DependenciesContext.Provider>
   )
