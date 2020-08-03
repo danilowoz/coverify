@@ -35,7 +35,6 @@
     "react-i18next": "11.4.0",
     "react-redux": "7.2.0",
     "react-snuggle": "1.2.3",
-    "react-spotify-login": "0.9.1",
     "redux": "4.0.5",
     "redux-thunk": "2.3.0",
     "styled-components": "5.1.0",

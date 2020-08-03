@@ -1,12 +1,7 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import DefaultButton from 'react-spotify-login'
 
-import {
-  dispatchLoading,
-  dispatchError,
-  dispatchUserToken,
-} from './config/actions'
+import { dispatchLoading, dispatchUserToken } from './config/actions'
 import {
   SPOTIFY_CLIENT_ID,
   SPOTIFY_URL,
@@ -22,38 +17,46 @@ const UserLoginButton: React.FC = (props) => {
   // User Login
   const onRequest = () => dispatch(dispatchLoading())
 
-  const onSuccess = (response: { access_token: string }) => {
-    const spotifyToken = response.access_token
+  const onSuccess = useCallback(
+    (token?: string) => {
+      // Creating context of services
+      if (dependencies && token) {
+        dependencies.create('spotify', { token })
+        // Full field reducer
+        dispatch(dispatchUserToken(token))
 
-    // Creating context of services
-    if (dependencies) {
-      dependencies.create('spotify', { token: spotifyToken })
+        // Analytics
+        if (analyticsService) {
+          analyticsService.logEvent('user', 'login')
+        }
+      } else {
+        // Analytics
+        if (analyticsService) {
+          analyticsService.logEvent('error', 'login')
+        }
+      }
+    },
+    [analyticsService, dependencies, dispatch]
+  )
+
+  useEffect(() => {
+    const hash = window.location.hash.replace('#access_token=', '')
+
+    if (hash) {
+      const token = hash.split('&')[0]
+      onSuccess(token)
+      window.location.hash = ''
     }
-
-    // Full field reducer
-    dispatch(dispatchUserToken(spotifyToken))
-
-    // Analytics
-    if (analyticsService) {
-      analyticsService.logEvent('user', 'login')
-    }
-  }
-
-  const onFailure = (response: Error) => {
-    dependencies.destroy('spotify')
-    dispatch(dispatchError(response.message))
-  }
+  }, [onSuccess])
 
   return (
-    <DefaultButton
+    <a
       {...props}
-      onRequest={onRequest}
-      clientId={SPOTIFY_CLIENT_ID}
-      redirectUri={SPOTIFY_URL}
-      onSuccess={onSuccess}
-      onFailure={onFailure}
-      scope={SPOTIFY_SCOPE}
-    />
+      onClick={onRequest}
+      href={`https://accounts.spotify.com/authorize?client_id=${SPOTIFY_CLIENT_ID}&redirect_uri=${SPOTIFY_URL}&scope=${SPOTIFY_SCOPE}&response_type=token&show_dialog=true`}
+    >
+      Login to Spotify
+    </a>
   )
 }
 
