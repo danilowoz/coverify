@@ -4,3 +4,4 @@ node_modules
 .now
 .env
 yarn-error.log
+.vercel
