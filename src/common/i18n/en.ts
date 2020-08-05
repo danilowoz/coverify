@@ -11,7 +11,7 @@ export default {
       foreText: 'This is',
       mainText: 'Your best cover ever',
       playlistName: `Welcome to {{appName}}`,
-      createBy: 'Create by',
+      createBy: 'Created by',
       updateOn: 'Update on {{where}}',
       textStyle: 'Text style',
       typeface: 'Typeface',

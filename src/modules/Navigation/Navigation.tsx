@@ -1,5 +1,10 @@
+import dynamic from 'next/dynamic'
 import React from 'react'
 import styled from 'styled-components'
+
+const NewsletterNoSSR = dynamic(() => import('../Newsletter'), {
+  ssr: false,
+})
 
 import i18n from 'common/i18n'
 import { COVER_SIZE_COMPACT, MAIN_BREAKPOINT } from 'common/sizes'
@@ -20,6 +25,8 @@ const CustomTab = styled(Tabs)`
 const Navigation: React.FC = () => {
   return (
     <Container>
+      <NewsletterNoSSR />
+
       <CustomTab
         data={[
           {
