@@ -31,8 +31,8 @@ Spotify playlist looking good.
 
 Install dependencies:
 
-`$ yarn`
+`$ npm install`
 
 Run development mode
 
-`$ yarn dev`
+`$ npm run dev`

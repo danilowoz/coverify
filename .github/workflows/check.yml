@@ -15,10 +15,10 @@ jobs:
           node-version: 12
           
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci 
 
       - name: Lint
-        run: yarn validate:lint
+        run: npm run validate:lint
 
   build:
     name: Build
@@ -33,7 +33,7 @@ jobs:
           node-version: 12
           
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm run install --frozen-lockfile
 
       - name: Lint
-        run: yarn validate:ts
+        run: npm run validate:ts
