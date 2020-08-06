@@ -24,6 +24,7 @@ export default {
       photoByOn: 'on',
     },
     editingPlaylist: "You're now editing this playlist",
+    importPlaylist: 'Import all playlist and edit its artwork',
     playlist: 'Playlist',
     twitter: 'Twitter',
     spotify: 'Spotify',

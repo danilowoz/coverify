@@ -2,11 +2,8 @@ import React, { useContext, useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { dispatchLoading, dispatchUserToken } from './config/actions'
-import {
-  SPOTIFY_CLIENT_ID,
-  SPOTIFY_URL,
-  SPOTIFY_SCOPE,
-} from './config/constants'
+import { SPOTIFY_API } from './config/constants'
+import i18n from 'common/i18n'
 import { DependenciesContext } from 'common/service/context'
 
 const UserLoginButton: React.FC = (props) => {
@@ -50,12 +47,8 @@ const UserLoginButton: React.FC = (props) => {
   }, [onSuccess])
 
   return (
-    <a
-      {...props}
-      onClick={onRequest}
-      href={`https://accounts.spotify.com/authorize?client_id=${SPOTIFY_CLIENT_ID}&redirect_uri=${SPOTIFY_URL}&scope=${SPOTIFY_SCOPE}&response_type=token&show_dialog=true`}
-    >
-      Login to Spotify
+    <a {...props} onClick={onRequest} href={SPOTIFY_API}>
+      {i18n.t('logIn', { where: i18n.t('spotify') })}
     </a>
   )
 }

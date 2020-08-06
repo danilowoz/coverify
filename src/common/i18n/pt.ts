@@ -24,6 +24,7 @@ export default {
       photoByOn: 'no',
     },
     editingPlaylist: 'Você agora esta editando está playlist',
+    importPlaylist: 'Importe todas as suas playlists e edite suas capas.',
     playlist: 'Playlist',
     twitter: 'Twitter',
     spotify: 'Spotify',

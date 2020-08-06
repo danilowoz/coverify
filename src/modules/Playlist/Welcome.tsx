@@ -31,7 +31,7 @@ const Welcome = () => {
         {i18n.t('logIn', { where: i18n.t('spotify') })}
       </Button>
       <Text size="normal" color="white-light">
-        Import all playlist and edit its artwork
+        {i18n.t('importPlaylist')}
       </Text>
     </Wrapper>
   )
