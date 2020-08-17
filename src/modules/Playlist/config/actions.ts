@@ -31,39 +31,40 @@ const useGetPlaylist = () => {
   const user = useSelector(userSelector.getUserData, shallowEqual)
   const dependencies = useContext(DependenciesContext)
   const spotifyService = dependencies.get('spotify')
+  const token = useSelector(userSelector.getToken)
 
   /**
    * Handle
    */
   const submit = useCallback(async () => {
-    if (!spotifyService) {
+    if (spotifyService && token) {
+      try {
+        dispatch(dispatchLoading())
+
+        const playlistData = await spotifyService.getUserPlaylist(token)
+
+        const filteredData = playlistData
+          ?.filter((item) => item.owner?.display_name === user?.userName)
+          .map((item) => {
+            return {
+              id: item.id,
+              name: item.name,
+              image: item.images?.[0]?.url,
+            }
+          })
+
+        dispatch({ type: types.PLAYLIST_SUCCESS, payload: filteredData })
+      } catch (err) {
+        dispatch(dispatchError(err?.response?.status ?? 'general'))
+      }
+    } else {
       return dispatch(
         dispatchError('Something went wrong on the playlists load.')
       )
     }
 
-    try {
-      dispatch(dispatchLoading())
-
-      const playlistData = await spotifyService.getUserPlaylist()
-
-      const filteredData = playlistData
-        ?.filter((item) => item.owner?.display_name === user?.userName)
-        .map((item) => {
-          return {
-            id: item.id,
-            name: item.name,
-            image: item.images?.[0]?.url,
-          }
-        })
-
-      dispatch({ type: types.PLAYLIST_SUCCESS, payload: filteredData })
-    } catch (err) {
-      dispatch(dispatchError(err?.response?.status ?? 'general'))
-    }
-
     return
-  }, [dispatch, spotifyService, user])
+  }, [dispatch, spotifyService, token, user])
 
   /**
    * Effect with dependencies

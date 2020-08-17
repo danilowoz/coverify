@@ -204,6 +204,7 @@ const useUpdateCoverOfPlaylist = () => {
   // States
   const playlistId = useSelector(selectors.getPlaylistId)
   const isConnected = useSelector(userSelector.isConnected)
+  const token = useSelector(userSelector.getToken)
   const analyticsService = dependencies.get('analytics')
 
   const submit = async () => {
@@ -229,12 +230,12 @@ const useUpdateCoverOfPlaylist = () => {
 
     dispatch(dispatchLoading())
 
-    if (screenShotService && spotifyService && playlistId) {
+    if (screenShotService && spotifyService && playlistId && token) {
       try {
         const snapshot = await screenShotService.getImage()
 
         if (snapshot) {
-          await spotifyService.updatePlaylistCover(playlistId, snapshot)
+          await spotifyService.updatePlaylistCover(playlistId, snapshot, token)
 
           dispatch(dispatchUpdateCover())
           refetchPlaylists()

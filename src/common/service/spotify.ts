@@ -15,15 +15,11 @@ type ResponseGetUSerPlaylist = ResponsePlaylist['items']
 type ResponseGetUserInformation = { userName: string; userImage: string }
 
 class Spotify {
-  private token: string
-
-  constructor({ token }: { token: string }) {
-    this.token = token
-  }
-
-  public async getUserInformation(): Promise<ResponseGetUserInformation> {
+  public async getUserInformation(
+    token: string
+  ): Promise<ResponseGetUserInformation> {
     const dataFromApi = await axios.get<ResponseMe>(`${API}/me`, {
-      headers: { Authorization: `Bearer ${this.token}` },
+      headers: { Authorization: `Bearer ${token}` },
     })
 
     return {
@@ -32,11 +28,13 @@ class Spotify {
     }
   }
 
-  public async getUserPlaylist(): Promise<ResponseGetUSerPlaylist> {
+  public async getUserPlaylist(
+    token: string
+  ): Promise<ResponseGetUSerPlaylist> {
     const dataFromApi = await axios.get<ResponsePlaylist>(
       `${API}/me/playlists`,
       {
-        headers: { Authorization: `Bearer ${this.token}` },
+        headers: { Authorization: `Bearer ${token}` },
         params: { limit: 50 },
       }
     )
@@ -44,13 +42,17 @@ class Spotify {
     return dataFromApi.data.items
   }
 
-  public async updatePlaylistCover(playlistId: string, imgData: string) {
+  public async updatePlaylistCover(
+    playlistId: string,
+    imgData: string,
+    token: string
+  ) {
     return await axios.put(
       `https://api.spotify.com/v1/playlists/${playlistId}/images`,
       imgData,
       {
         headers: {
-          Authorization: `Bearer ${this.token}`,
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'image/jpeg',
         },
       }
