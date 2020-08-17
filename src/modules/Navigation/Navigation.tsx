@@ -30,12 +30,12 @@ const Navigation: React.FC = () => {
       <CustomTab
         data={[
           {
-            title: i18n.t('navigation.backgroundImage'),
-            content: <Backgrounds />,
-          },
-          {
             title: i18n.t('navigation.myPlaylists'),
             content: <Playlist />,
+          },
+          {
+            title: i18n.t('navigation.backgroundImage'),
+            content: <Backgrounds />,
           },
         ]}
       />

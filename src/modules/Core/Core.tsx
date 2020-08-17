@@ -32,7 +32,7 @@ const Core: React.FC = ({ children }) => {
    */
   useEffect(() => {
     if (token) {
-      dependencies.create('spotify', { token })
+      dependencies.create('spotify')
     }
   }, [token, dependencies])
 

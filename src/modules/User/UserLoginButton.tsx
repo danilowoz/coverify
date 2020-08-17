@@ -18,7 +18,7 @@ const UserLoginButton: React.FC = (props) => {
     (token?: string) => {
       // Creating context of services
       if (dependencies && token) {
-        dependencies.create('spotify', { token })
+        dependencies.create('spotify')
         // Full field reducer
         dispatch(dispatchUserToken(token))
 
