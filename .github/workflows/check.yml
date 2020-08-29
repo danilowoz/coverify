@@ -33,7 +33,7 @@ jobs:
           node-version: 12
           
       - name: Install dependencies
-        run: npm run install --frozen-lockfile
+        run: npm ci 
 
       - name: Lint
         run: npm run validate:ts
