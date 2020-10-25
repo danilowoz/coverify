@@ -84,6 +84,7 @@ const selectors = {
       userImage: data.user.data?.userImage,
     }
   },
+  getUserName: (state: DefaultRootState) => state.user.data?.userName,
   getLoading: (state: DefaultRootState) => state.user.loading,
   getErrorMessage: (state: DefaultRootState) => state.user.errorMessage,
   isConnected: (state: DefaultRootState) => {

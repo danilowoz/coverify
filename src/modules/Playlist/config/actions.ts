@@ -28,7 +28,7 @@ const dispatchError = (message: string) => ({
  */
 const useGetPlaylist = () => {
   const dispatch = useDispatch()
-  const user = useSelector(userSelector.getUserData, shallowEqual)
+  const userName = useSelector(userSelector.getUserName, shallowEqual)
   const dependencies = useContext(DependenciesContext)
   const spotifyService = dependencies.get('spotify')
   const token = useSelector(userSelector.getToken)
@@ -44,7 +44,7 @@ const useGetPlaylist = () => {
         const playlistData = await spotifyService.getUserPlaylist(token)
 
         const filteredData = playlistData
-          ?.filter((item) => item.owner?.display_name === user?.userName)
+          ?.filter((item) => item.owner?.display_name === userName)
           .map((item) => {
             return {
               id: item.id,
@@ -58,22 +58,18 @@ const useGetPlaylist = () => {
         dispatch(dispatchError(err?.response?.status ?? 'general'))
       }
     } else {
-      return dispatch(
-        dispatchError('Something went wrong on the playlists load.')
-      )
+      return dispatch(dispatchError('playlistLoad'))
     }
 
     return
-  }, [dispatch, spotifyService, token, user])
+  }, [dispatch, spotifyService, token, userName])
 
   /**
    * Effect with dependencies
    */
   useEffect(() => {
-    if (spotifyService && user?.userName) {
-      submit()
-    }
-  }, [submit, spotifyService, user])
+    submit()
+  }, [submit])
 
   return submit
 }

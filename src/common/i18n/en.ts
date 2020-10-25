@@ -34,6 +34,7 @@ export default {
       general: 'Something went wrong, please try again',
       coverUpdated: 'The playlist cover has been updated successfully!',
       errorSignIn: 'First you need to sign in on {{where}}',
+      playlistLoad: 'Something went wrong on the playlists load.',
     },
   },
 }
