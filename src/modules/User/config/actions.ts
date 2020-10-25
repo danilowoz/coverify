@@ -40,13 +40,13 @@ const useGetInformationOfUser = () => {
   const dispatch = useDispatch()
   const dependencies = useContext(DependenciesContext)
   const token = useSelector(selectors.getToken)
+  const spotifyService = dependencies.get('spotify')
 
   /**
    * Handle
    */
   const submit = useCallback(async () => {
     // get service
-    const spotifyService = dependencies.get('spotify')
 
     if (spotifyService && token) {
       dispatch(dispatchLoading())
@@ -59,18 +59,18 @@ const useGetInformationOfUser = () => {
         dispatch(dispatchError(String(err?.response?.status ?? 'general')))
       }
     } else {
-      dispatch(dispatchError('Spotify services has not been created'))
+      dispatch(dispatchError('general'))
     }
-  }, [dependencies, dispatch, token])
+  }, [dependencies, dispatch, spotifyService, token])
 
   /**
    * Effect with dependencies
    */
   useEffect(() => {
-    if (token) {
+    if (token && spotifyService) {
       submit()
     }
-  }, [submit, token])
+  }, [submit, token, spotifyService])
 }
 
 export {
