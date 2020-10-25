@@ -1,8 +1,15 @@
 {
   "compilerOptions": {
     "isolatedModules": true,
-    "baseUrl": "./src",
+    "baseUrl": "./src"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
   "extends": "./node_modules/@significa/tsconfig-config/index.json",
+  "exclude": [
+    "node_modules"
+  ]
 }
