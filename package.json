@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@types/i18n-js": "3.0.2",
-    "axios": "0.21.0",
+    "axios": "0.21.1",
     "dayjs": "1.9.4",
     "dotenv": "8.2.0",
     "framer-motion": "1.10.3",
