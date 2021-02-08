@@ -1,10 +1,10 @@
-name: Deploy Firebase
+name: Deploy and release
 on:
   push:
     branches:
       - master
 jobs:
-  build:
+  server:
     name: Build
     runs-on: ubuntu-latest
     steps:
@@ -17,3 +17,46 @@ jobs:
           args: deploy
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+  
+  client:
+    name: Typescript
+    runs-on: ubuntu-18.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typescript
+        run: npm run validate:build
+
+  release:
+    name: Release
+    runs-on: ubuntu-18.04
+    needs: [server, client]
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npx semantic-release
