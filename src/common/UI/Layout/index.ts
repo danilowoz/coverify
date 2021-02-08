@@ -1,1 +1,2 @@
-export { Layout } from './Layout'
+export { globalStyle } from './globalStyle'
+export { css, styled } from './theme'

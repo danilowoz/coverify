@@ -1,13 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
-    <title>41. Pen</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="41.-Pen" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
-        <polygon id="Layer-1" stroke="#fff" stroke-width="4" points="9.43577279 74.4761835 63.6215293 20.2284295 80.6411985 37.2675719 26.455442 91.5153259 3.23266063 97.7255355"></polygon>
-        <polygon id="Layer-2" stroke="#fff" stroke-width="4" points="27.1614106 90.8085496 3.23266063 97.7255355 3.27950099 97.6786415 10.1885818 73.7225132"></polygon>
-        <polygon id="Layer-3" stroke="#fff" stroke-width="4" points="71.0534635 12.7879919 88.0731327 29.8271344 81.1310988 36.7771112 64.1114296 19.7379687"></polygon>
-        <path d="M77.5003079,6.33377129 C81.0608018,2.76920366 86.8343072,2.77000891 90.3936915,6.33346575 L94.5202823,10.464778 C98.0806076,14.0291769 98.073226,19.8155993 94.5199771,23.3729138 L88.0731327,29.8271344 L71.0534635,12.7879919 L77.5003079,6.33377129 L77.5003079,6.33377129 Z" id="Layer-4" stroke="#fff" stroke-width="4"></path>
-    </g>
-</svg>
+<svg width="17" height="17" viewBox="0 0 17 17"><g fill="#FFF" fill-rule="evenodd"><path d="M13.814.586l2.828 2.828-9.899 9.9-2.828-2.828zM4.975 14.434l-2.697.213.212-2.697z"/></g></svg>

@@ -1,23 +1,9 @@
 {
   "extends": "@significa/eslint-config",
   "settings": {
-    "import/internal-regex": "^common|^config|^modules|^schemas"
+    "import/internal-regex": "^common|^services/|^modules/|^pages/|^types"
   },
   "rules": {
-    "import/order": [
-      "error",
-      {
-        "groups": [
-          "builtin",
-          "external",
-          ["internal", "parent", "sibling", "index"]
-        ],
-        "newlines-between": "always",
-        "alphabetize": {
-          "order": "asc",
-          "caseInsensitive": true
-        }
-      }
-    ]
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   }
 }
