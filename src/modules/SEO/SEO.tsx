@@ -1,9 +1,10 @@
 import Head from 'next/head'
 import React from 'react'
 
+import { APP_NAME, DESCRIPTION, SHORT_DESCRIPTION, URL } from 'common/constants'
+
 import faviconSrc from './assets/favicon.png'
 import shareSrc from './assets/share.png'
-import { APP_NAME, DESCRIPTION, SHORT_DESCRIPTION, URL } from 'common/constants'
 
 const SEO = () => {
   return (

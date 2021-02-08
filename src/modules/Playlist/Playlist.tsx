@@ -1,90 +1,121 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector, shallowEqual } from 'react-redux'
-import styled from 'styled-components'
+import React, { useState } from 'react'
+import { useDebounce } from 'use-debounce'
 
-import { useGetPlaylist } from './config/actions'
-import { selectors as playlistSelector } from './config/reducer'
-import { Empty } from './partials/Empty'
-import { Item } from './partials/Item'
-import { Welcome } from './Welcome'
-import { MAIN_BREAKPOINT } from 'common/sizes'
-import {
-  selectors as editorSelectors,
-  actions as editorActions,
-} from 'modules/Editor'
-import { selectors as userSelectors } from 'modules/User'
+import { SearchInput } from 'common/UI/SearchInput'
+import i18n from 'services/i18n'
+import { Button, styled, Text } from 'common/UI'
+import { useUser } from 'services/authentication'
+import { useAppSelector } from 'services/state'
+import { canvasSelector } from 'modules/Canvas'
 
-const Grid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+import { usePlaylists } from './hooks'
+import { Welcome } from './parts/Welcome'
+import { Loading } from './parts/Loading'
+import { Item } from './parts/Item'
 
-  > * {
-    width: calc(100% / 2 - 0.5em);
-    margin-bottom: 1em;
+const Playlist: React.FC = () => {
+  const user = useUser()
+  const { loading, data, hasMoreItems, getMore } = usePlaylists()
+  const [searchQuery, setSearchQuery] = useState('')
+  const playlistIdSelected = useAppSelector(canvasSelector.playlistId)
 
-    @media (min-width: ${MAIN_BREAKPOINT}) {
-      width: calc(100% / 4 - 1em);
-      margin-bottom: 2em;
+  const [searchQueryDebounced] = useDebounce(searchQuery, 300)
+
+  const filterPlaylist = data?.filter((e) => {
+    if (searchQueryDebounced === '') {
+      return true
     }
-  }
-`
 
-const Playlist = () => {
-  // Handles
-  const dispatch = useDispatch()
-
-  // Third-states
-  const isConnected = useSelector(userSelectors.isConnected)
-  const playlistIdSelected = useSelector(
-    editorSelectors.getPlaylistId,
-    shallowEqual
-  )
-
-  // Module states
-  const playlists = useSelector(playlistSelector.getData, shallowEqual)
-  const playlistsLoading = useSelector(playlistSelector.getLoading)
-
-  // Get data of playlist
-  useGetPlaylist()
-
-  // If there is no playlist picked, then selected the first one
-  useEffect(() => {
-    if (playlists.length > 0 && !playlistIdSelected) {
-      dispatch(editorActions.dispatchPlaylistId(playlists[0].id))
-      dispatch(editorActions.dispatchPlaylistName(playlists[0].name))
-    }
-  }, [playlists, dispatch, playlistIdSelected])
-
-  // Renders
-  if (playlistsLoading || !isConnected) {
-    return <Welcome />
-  }
-
-  if (playlists.length > 0) {
     return (
-      <Grid>
-        {playlists.map((item) => {
-          const isSelected = playlistIdSelected === item.id
-          const onSelect = () => {
-            dispatch(editorActions.dispatchPlaylistId(item.id))
-            dispatch(editorActions.dispatchPlaylistName(item.name))
-          }
+      e.name
+        ?.toLocaleLowerCase()
+        .indexOf(searchQueryDebounced.toLowerCase()) !== -1
+    )
+  })
 
-          return (
+  const renderContent = () => {
+    if (!user) {
+      return <Welcome />
+    }
+
+    if (loading && filterPlaylist.length === 0) {
+      return <Loading />
+    }
+
+    if (filterPlaylist.length === 0 && !hasMoreItems) {
+      return (
+        <Wrapper>
+          <Text css={{ marginTop: '$s25' }}>{i18n.t('alert.noPlaylist')}</Text>
+        </Wrapper>
+      )
+    }
+
+    return (
+      <Wrapper>
+        <Grid>
+          {filterPlaylist?.map((item) => (
             <Item
-              onSelect={onSelect}
+              editing={item.id === playlistIdSelected}
               key={item.id}
-              isSelected={isSelected}
               data={item}
             />
-          )
-        })}
-      </Grid>
+          ))}
+        </Grid>
+
+        {!loading && hasMoreItems && (
+          <Button onClick={getMore}>{i18n.t('loadMore')}</Button>
+        )}
+        {loading && <Loading />}
+      </Wrapper>
     )
   }
 
-  return <Empty />
+  return (
+    <>
+      <SearchInput
+        type="search"
+        value={searchQuery}
+        onChange={(event) => {
+          event.preventDefault()
+          setSearchQuery(event.target.value)
+        }}
+        placeholder={i18n.t('searchPlaceholder')}
+      />
+
+      {renderContent()}
+    </>
+  )
 }
+
+const Wrapper = styled('div', {
+  textAlign: 'center',
+})
+
+const Grid = styled('div', {
+  display: 'flex',
+  justifyContent: 'space-between',
+  flexWrap: 'wrap',
+
+  '&:after': {
+    content: "''",
+    width: '100%',
+
+    aboveSmall: {
+      width: 'calc((100% / 2) - .6em)',
+    },
+
+    aboveMedium: {
+      width: 'calc((100% / 3) - (.6em * 2))',
+    },
+  },
+
+  '> *': {
+    width: 'calc((100% / 2) - .6em)',
+
+    aboveMedium: {
+      width: 'calc((100% / 3) - (.6em * 2))',
+    },
+  },
+})
 
 export { Playlist }

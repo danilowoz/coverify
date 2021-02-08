@@ -1,100 +1,95 @@
-import React, { useEffect, useContext, useCallback } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDebounce } from 'use-debounce'
 import Snuggle from 'react-snuggle'
 
-import { dispatchRandomWord } from './config/actions'
-import { selectors, BackgroundItem } from './config/reducer'
-import { Empty } from './partials/Empty'
-import { Item } from './partials/Item'
-import { Loading } from './partials/Loading'
-import { Search } from './partials/Search'
-import i18n from 'common/i18n'
-import { DependenciesContext } from 'common/service/context'
-import { MAIN_BREAKPOINT } from 'common/sizes'
-import { useAlert } from 'common/UI'
-import { useWindowSize, emToPxInNumber } from 'common/utils'
-import { actions } from 'modules/Editor'
+import { Button, SearchInput, styled } from 'common/UI'
+import i18n from 'services/i18n'
+import { BackgroundImageItem } from 'pages/api/vendor/editor/search-images'
+import { useAppDispatch, useAppSelector } from 'services/state'
+import { canvasActions } from 'modules/Canvas'
+
+import { useBackgrounds } from './hooks'
+import { backgroundsStateActions } from './state'
+import { Loading } from './parts/Loading'
+import { Empty } from './parts/Empty'
+import { Item } from './parts/Item'
+
+const Wrapper = styled('div', {
+  textAlign: 'center',
+})
+
+const Container = styled('div', {
+  marginBottom: '$s30',
+  width: '100%',
+})
 
 const Backgrounds: React.FC = () => {
-  // Manager
-  const alert = useAlert()
-  const dispatch = useDispatch()
+  const initialQuery = useAppSelector(
+    (data) => data.backgrounds.pagination.query
+  )
+  const [searchQuery, setSearchQuery] = useState(initialQuery)
+  const [searchQueryDebounced] = useDebounce(searchQuery, 600)
 
-  // States
-  const errorMessage = useSelector(selectors.getErrorMessage)
-  const data = useSelector(selectors.getData)
-  const loading = useSelector(selectors.getLoading)
-  const { width } = useWindowSize()
+  const dispatch = useAppDispatch()
+  const { data, loading, getMore, hasMoreItems } = useBackgrounds()
 
-  const dependencies = useContext(DependenciesContext)
-  const unSplashService = dependencies.get('unsplash')
-  const analyticsService = dependencies.get('analytics')
-
-  const gridColumnWidth = width > emToPxInNumber(MAIN_BREAKPOINT) ? 320 : 120
-
-  // Effects
-  useEffect(() => {
-    if (errorMessage) {
-      alert.error(i18n.t(`alert.${errorMessage}`))
-
-      if (analyticsService) {
-        analyticsService.logEvent('error', errorMessage)
-      }
+  const pickImage = (element: BackgroundImageItem) => {
+    if (element.urls?.full && element.color) {
+      dispatch(
+        canvasActions.putBackground({
+          url: element.urls?.regular,
+          color: element.color,
+        })
+      )
     }
-  }, [alert, analyticsService, errorMessage])
+  }
 
-  // Very first render
-  const setRandomWordOnSearch = useCallback(
-    () => dispatch(dispatchRandomWord()),
-    [dispatch]
+  useEffect(
+    function updateQuery() {
+      // Prevent unnecessary requests
+      if (initialQuery !== searchQueryDebounced) {
+        dispatch(backgroundsStateActions.setQuery(searchQueryDebounced))
+      }
+    },
+    [dispatch, initialQuery, searchQueryDebounced]
   )
 
-  useEffect(() => {
-    setRandomWordOnSearch()
-  }, [setRandomWordOnSearch])
+  return (
+    <Wrapper>
+      <SearchInput
+        type="search"
+        value={searchQuery}
+        onChange={(event) => {
+          event.preventDefault()
+          setSearchQuery(event.target.value)
+        }}
+        placeholder={i18n.t('searchPlaceholder')}
+      />
 
-  // Render
-  const conditionalRender = () => {
-    if (loading) {
-      return <Loading />
-    }
-
-    if (data.length > 0) {
-      const pickImage = async (element: BackgroundItem) => {
-        if (element?.urls?.full && element?.id) {
-          dispatch(actions.dispatchBackground(element?.urls?.full))
-
-          if (unSplashService) {
-            await unSplashService.downloadImage(element?.id)
-          }
-
-          if (analyticsService) {
-            analyticsService.logEvent('editor', 'pick background')
-          }
-        }
-      }
-
-      return (
-        <Snuggle columnWidth={gridColumnWidth}>
+      <Container>
+        <Snuggle>
           {data.map((element) => {
             return (
               <Item key={element.id} element={element} pickImage={pickImage} />
             )
           })}
         </Snuggle>
-      )
-    }
+      </Container>
 
-    return <Empty onClickRandomWord={setRandomWordOnSearch} />
-  }
+      {!loading && data.length === 0 && (
+        <Empty
+          onClickRandomWord={() =>
+            dispatch(backgroundsStateActions.setRandomQuery())
+          }
+        />
+      )}
 
-  const renderResults = conditionalRender()
+      {!loading && hasMoreItems && (
+        <Button onClick={getMore}>{i18n.t('loadMore')}</Button>
+      )}
 
-  return (
-    <>
-      <Search />
-      {renderResults}
-    </>
+      {loading && <Loading />}
+    </Wrapper>
   )
 }
 

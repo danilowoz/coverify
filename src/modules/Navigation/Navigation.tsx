@@ -1,46 +1,102 @@
-import dynamic from 'next/dynamic'
-import React from 'react'
-import styled from 'styled-components'
+import React, { useCallback, useEffect, useState } from 'react'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-const NewsletterNoSSR = dynamic(() => import('../Newsletter'), {
-  ssr: false,
+import { styled, Tab, Text } from 'common/UI'
+import i18n from 'services/i18n'
+import { useAppDispatch, useAppSelector } from 'services/state'
+import { useBreakPoint } from 'common/utils/responsive'
+
+/**
+ * State
+ */
+const initialState = i18n.t('tabs.playlists')
+
+const { actions, reducer: UINavigationReducer } = createSlice({
+  name: 'ui/menu',
+  initialState,
+  reducers: {
+    setMenuSlice: (_state, action: PayloadAction<string>) => action.payload,
+  },
 })
 
-import i18n from 'common/i18n'
-import { COVER_SIZE_COMPACT, MAIN_BREAKPOINT } from 'common/sizes'
-import { Tabs, Container } from 'common/UI'
-import Backgrounds from 'modules/Backgrounds'
-import Playlist from 'modules/Playlist'
+/**
+ * Component
+ */
+const Nav = styled('nav', {
+  display: 'flex',
+  overflow: 'auto',
+  flexWrap: 'nowrap',
+  aboveMedium: {
+    marginTop: '-$body',
+  },
+})
 
-const CustomTab = styled(Tabs)`
-  position: sticky;
-  top: 4.8em;
-  z-index: 5;
+const INITIAL_MENU = [
+  i18n.t('tabs.playlists'),
+  i18n.t('tabs.background'),
+  i18n.t('tabs.style'),
+  i18n.t('tabs.presets'),
+]
 
-  @media (min-width: ${MAIN_BREAKPOINT}) {
-    top: calc(${COVER_SIZE_COMPACT} + 1.9em);
-  }
-`
-
+/**
+ * Main component
+ */
 const Navigation: React.FC = () => {
-  return (
-    <Container>
-      <NewsletterNoSSR />
+  const menuSelected = useAppSelector((data) => data.menu)
+  const dispatch = useAppDispatch()
+  const { bellowMedium } = useBreakPoint()
 
-      <CustomTab
-        data={[
-          {
-            title: i18n.t('navigation.myPlaylists'),
-            content: <Playlist />,
-          },
-          {
-            title: i18n.t('navigation.backgroundImage'),
-            content: <Backgrounds />,
-          },
-        ]}
-      />
-    </Container>
+  const [menu, setMenu] = useState<string[]>(INITIAL_MENU)
+
+  const setNavigationValue = useCallback(
+    (payload: string) => {
+      dispatch(actions.setMenuSlice(payload))
+    },
+    [dispatch]
+  )
+
+  useEffect(
+    function handleMenuBasedOnBreakpoint() {
+      const newMenu = [
+        bellowMedium ? i18n.t('tabs.preview') : null,
+        ...INITIAL_MENU,
+      ].filter(Boolean)
+
+      // Initial menu items
+      setMenu(newMenu as string[])
+
+      // Initial menu selected
+      setNavigationValue(
+        bellowMedium ? i18n.t('tabs.preview') : i18n.t('tabs.playlists')
+      )
+    },
+    [bellowMedium, setNavigationValue]
+  )
+
+  return (
+    <Nav>
+      {menu.map((item) => {
+        const isPresets = item === i18n.t('tabs.presets')
+
+        return (
+          <Tab
+            onClick={() => !isPresets && setNavigationValue(item)}
+            variant={menuSelected === item ? 'active' : undefined}
+            key={item}
+            as={isPresets ? 'div' : 'button'}
+          >
+            {item}
+
+            {isPresets && (
+              <Text css={{ marginLeft: '$s10' }} size="smaller" color="g10">
+                {i18n.t('soon')}
+              </Text>
+            )}
+          </Tab>
+        )
+      })}
+    </Nav>
   )
 }
 
-export { Navigation }
+export { Navigation, UINavigationReducer }

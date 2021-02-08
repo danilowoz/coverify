@@ -1,0 +1,1 @@
+export { StyleConfig } from './StyleConfig'

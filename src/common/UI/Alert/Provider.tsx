@@ -1,21 +1,48 @@
-import React from 'react'
-import { transitions, positions, Provider } from 'react-alert'
+import { AnimatePresence } from 'framer-motion'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 
-import { Template } from './Template'
+import { AlertMessage } from './Message'
+import { AlertStrut, ContextProp } from './types'
 
-const options = {
-  position: positions.TOP_CENTER,
-  timeout: 5000,
-  offset: '.5em',
-  transition: transitions.FADE,
-}
+const AlertContext = createContext<ContextProp>({
+  dispatchAlert: () => null as any,
+})
+
+const ALERT_TIMER = 5e3
 
 const AlertProvider: React.FC = ({ children }) => {
+  const [alertData, setAlertData] = useState<AlertStrut | undefined>()
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAlertData(undefined)
+    }, ALERT_TIMER)
+
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [alertData])
+
   return (
-    <Provider template={Template} {...options}>
+    <AlertContext.Provider value={{ dispatchAlert: setAlertData }}>
+      <AnimatePresence>
+        {alertData && (
+          <AlertMessage
+            message={alertData.message}
+            type={alertData.type}
+            handleRetry={alertData.handleRetry}
+          />
+        )}
+      </AnimatePresence>
       {children}
-    </Provider>
+    </AlertContext.Provider>
   )
 }
 
-export { AlertProvider }
+const useAlert = () => {
+  const { dispatchAlert } = useContext(AlertContext)
+
+  return dispatchAlert
+}
+
+export { useAlert, AlertProvider }

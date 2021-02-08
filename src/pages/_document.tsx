@@ -1,52 +1,50 @@
-import Document, {
+import React from 'react'
+import NextDocument, {
+  DocumentContext,
   Head,
+  Html,
   Main,
   NextScript,
-  DocumentContext,
 } from 'next/document'
-import React from 'react'
-import { ServerStyleSheet } from 'styled-components'
 
-export default class MyDocument extends Document {
+import { css } from 'common/UI'
+
+export default class Document extends NextDocument {
   static async getInitialProps(ctx: DocumentContext) {
-    const sheet = new ServerStyleSheet()
     const originalRenderPage = ctx.renderPage
 
-    try {
-      ctx.renderPage = () =>
-        originalRenderPage({
-          enhanceApp: (App) => (props) =>
-            sheet.collectStyles(<App {...props} />),
-        })
+    let extractedStyles: string[] | undefined
+    ctx.renderPage = () => {
+      const { styles, result } = css.getStyles(originalRenderPage)
+      extractedStyles = styles
+      return result
+    }
 
-      const initialProps = await Document.getInitialProps(ctx)
-      return {
-        ...initialProps,
-        styles: (
-          <>
-            {initialProps.styles}
-            {sheet.getStyleElement()}
-          </>
-        ),
-      }
-    } finally {
-      sheet.seal()
+    const initialProps = await NextDocument.getInitialProps(ctx)
+
+    return {
+      ...initialProps,
+      styles: (
+        <>
+          {initialProps.styles}
+
+          {extractedStyles?.map((content, index) => (
+            <style key={index} dangerouslySetInnerHTML={{ __html: content }} />
+          ))}
+        </>
+      ),
     }
   }
+
   render() {
     return (
-      <html lang="en">
-        <Head>
-          <link
-            href="https://fonts.googleapis.com/css?family=Montserrat:400,800&display=swap"
-            rel="stylesheet"
-          />
-        </Head>
+      <Html>
+        <Head />
         <body>
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     )
   }
 }

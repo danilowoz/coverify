@@ -1,134 +1,228 @@
-import { motion } from 'framer-motion'
 import React, { useState } from 'react'
-import styled from 'styled-components'
+import { AnimatePresence, motion } from 'framer-motion'
+
+import { ReactComponent as Logo } from 'common/assets/logo.svg'
+import {
+  Button,
+  styled,
+  Flex,
+  Text,
+  Avatar,
+  SubMenu,
+  Menu,
+  MenuAction,
+} from 'common/UI'
+import { useUser, useAuthentication } from 'services/authentication'
+import i18n from 'services/i18n'
+import { ReactComponent as Arrow } from 'common/assets/arrow-down.svg'
+import { Newsletter } from 'modules/Newsletter'
 
 import { version } from '../../../package.json'
-import logoSrc from './assets/logo.svg'
-import { Navigation } from './Navigation'
-import { Toggle } from './Toggle'
-import { TRANSITION } from 'common/animations'
-import { APP_NAME } from 'common/constants'
-import { HEADER_HEIGHT } from 'common/sizes'
-import { Container as BaseContainer, Text } from 'common/UI'
 
-const Wrapper = styled.div<{ open: boolean }>`
-  height: ${HEADER_HEIGHT};
-  position: relative;
-  z-index: ${({ open }) => (open ? 10 : 9)};
-`
+type TabItems = 'newsletter' | 'sponsor' | undefined
 
-const Background = styled.header`
-  background: var(--color-black);
-  padding-top: 1.5em;
-  height: ${HEADER_HEIGHT};
+const Header: React.FC = () => {
+  const user = useUser()
+  const { logIn, signOut, deleteAccount } = useAuthentication()
+  const [tabVisibility, setTabVisibility] = useState<TabItems>()
 
-  /* Desktop */
-  @media (min-width: 60em) {
-    padding-top: 1em;
+  const handleTabClick = (payload: TabItems) => {
+    setTabVisibility((prev) => {
+      if (prev === payload) {
+        return undefined
+      }
+
+      return payload
+    })
   }
 
-  position: fixed;
-  top: 0;
-  left: 0%;
-  right: 0;
-`
-
-const Container = styled(BaseContainer)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-
-const MenuWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex: 1;
-  overflow: hidden;
-
-  /* Override inline style */
-  /* Desktop */
-  @media (min-width: 60em) {
-    transform: none !important;
-  }
-
-  /* Mobile */
-  @media (max-width: 60em) {
-    position: fixed;
-    top: 4.8em;
-    left: 0;
-    width: 100%;
-    height: 120%;
-    z-index: 2;
-    padding-bottom: calc(30% + 4.8em);
-
-    flex-direction: column;
-    justify-content: center;
-
-    border-top: 1px solid #ffffff30;
-
-    &:after {
-      content: '';
-      width: 100%;
-      height: 120%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      transition: all 0.2s ease;
-      pointer-events: none;
-      backdrop-filter: brightness(70%) saturate(70%) blur(20px);
-      z-index: -1;
+  const renderUser = () => {
+    if (!user) {
+      return (
+        <Button onClick={logIn} variant="outline">
+          {i18n.t('logIn', { where: i18n.t('spotify') })}
+        </Button>
+      )
     }
-  }
-`
 
-const LogoImage = styled.img`
-  height: 1.8em;
-  display: block;
-`
+    return (
+      <UserContent variant="distribute">
+        <Menu>
+          <MenuAction>
+            <Flex variant="distribute">
+              {user.profilePic && user.userName && (
+                <Avatar src={user.profilePic} alt={user.userName} />
+              )}
+              <Text size="small">{user.userName}</Text>
 
-const Flex = styled.div`
-  display: flex;
-  align-items: center;
-`
+              <ArrowWrapper>
+                <Arrow />
+              </ArrowWrapper>
+            </Flex>
+          </MenuAction>
 
-const Version = styled(Text)`
-  margin-left: 1em;
-  margin-top: 0.7em;
-`
-
-const Header = () => {
-  const [showMenu, setShowMenu] = useState(false)
-
-  const handleMenu = async () => {
-    setShowMenu((prevState) => !prevState)
+          <SubMenu
+            items={[
+              {
+                text: `Coverify v${version}`,
+                headerStyle: true,
+              },
+              {
+                text: i18n.t('githubSourceCode'),
+                src:
+                  'https://github.com/danilowoz/coverify/issues/new?assignees=&labels=bug&template=bug_report.md&title=',
+              },
+              {
+                text: i18n.t('supportFeedback'),
+                src:
+                  'mailto:danilowo@gmail.com?subject=Coverify%3A%20Support%20%26%20Feedback',
+              },
+              {
+                text: i18n.t('menu.signOut'),
+                onClick: signOut,
+              },
+              {
+                text: i18n.t('menu.delete'),
+                errorStyle: true,
+                onClick: deleteAccount,
+              },
+            ]}
+          />
+        </Menu>
+      </UserContent>
+    )
   }
 
   return (
-    <Wrapper open={showMenu}>
-      <Background>
-        <Container>
-          <Flex>
-            <LogoImage src={logoSrc} alt={APP_NAME} />
-            <Version color="white-light" size="small">
-              v{version}
-            </Version>
-          </Flex>
+    <>
+      <HeaderContent>
+        <Flex variant="distribute">
+          <MainMenu>
+            <Logo />
+            <Text
+              onClick={() => handleTabClick('sponsor')}
+              css={{ marginLeft: '$s45', cursor: 'pointer' }}
+            >
+              {i18n.t('sponsor')}
+            </Text>
+            <Text
+              onClick={() => handleTabClick('newsletter')}
+              css={{ marginLeft: '$s20', cursor: 'pointer' }}
+            >
+              {i18n.t('whatsNew')}
+            </Text>
+          </MainMenu>
 
-          <Toggle onClick={handleMenu} open={showMenu} />
+          {renderUser()}
+        </Flex>
+      </HeaderContent>
 
-          <MenuWrapper
-            as={motion.div}
-            initial={{ y: '100%' }}
-            animate={{ y: showMenu ? 0 : '100%' }}
-            transition={TRANSITION}
+      <AnimatePresence>
+        {tabVisibility === 'sponsor' && (
+          <motion.div
+            key="content"
+            initial="collapsed"
+            animate="open"
+            exit="collapsed"
+            variants={{
+              open: { opacity: 1, height: 'auto' },
+              collapsed: { opacity: 0, height: 0 },
+            }}
           >
-            <Navigation />
-          </MenuWrapper>
-        </Container>
-      </Background>
-    </Wrapper>
+            <TabContainer>
+              <Close type="button" onClick={() => setTabVisibility(undefined)}>
+                ×
+              </Close>
+              <iframe
+                src="https://github.com/sponsors/danilowoz/card"
+                title="Sponsor danilowoz"
+                height="225"
+                width="600"
+                style={{ border: 0 }}
+              />
+            </TabContainer>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {tabVisibility === 'newsletter' && (
+          <motion.div
+            key="content"
+            initial="collapsed"
+            animate="open"
+            exit="collapsed"
+            variants={{
+              open: { opacity: 1, height: 'auto' },
+              collapsed: { opacity: 0, height: 0 },
+            }}
+          >
+            <TabContainer>
+              <Close type="button" onClick={() => setTabVisibility(undefined)}>
+                ×
+              </Close>
+              <Newsletter />
+            </TabContainer>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   )
 }
+
+const HeaderContent = styled('header', {
+  padding: '$s10 $bodySmall',
+  position: 'relative',
+  zIndex: 999,
+
+  aboveMedium: {
+    padding: '$s10 $body',
+  },
+})
+
+const MainMenu = styled('header', {
+  display: 'flex',
+  alignItems: 'center',
+
+  [`${Text}`]: {
+    position: 'relative',
+    top: 2,
+    display: 'none',
+  },
+  aboveMedium: {
+    [`${Text}`]: {
+      display: 'block',
+    },
+  },
+})
+
+const TabContainer = styled('div', {
+  textAlign: 'center',
+  borderTopWidth: 1,
+  borderTopColor: '$g50',
+  borderTopStyle: 'solid',
+  paddingTop: '$s45',
+  paddingBottom: '$s20',
+  position: 'relative',
+})
+
+const Close = styled('button', {
+  width: '2.75em',
+  height: '2.75em',
+  position: 'absolute',
+  top: 0,
+  right: 0,
+  color: '$g00',
+  fontSize: '2em',
+  lineHeight: 1,
+})
+
+const UserContent = styled(Flex, {
+  height: '2.65em',
+})
+
+const ArrowWrapper = styled('div', {
+  marginLeft: '$s10',
+})
 
 export { Header }

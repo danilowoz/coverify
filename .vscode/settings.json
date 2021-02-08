@@ -1,3 +1,10 @@
 {
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "editor.gotoLocation.multipleDefinitions": "goto",
+  "editor.gotoLocation.multipleImplementations": "goto",
+  "typescript.preferences.importModuleSpecifier": "auto",
+  "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.tsdk": "node_modules/typescript/lib"
 }

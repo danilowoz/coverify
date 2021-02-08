@@ -1,29 +1,26 @@
-require('dotenv').config()
-const withImages = require('next-images')
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
-
-const { version } = require('./package.json')
-
-module.exports = withImages({
+module.exports = {
+  env: {
+    GOOGLE_FIREBASE_CLIENT: process.env.GOOGLE_FIREBASE_CLIENT,
+  },
   webpack(config) {
-    if (config.resolve.plugins) {
-      config.resolve.plugins.push(new TsconfigPathsPlugin())
-    } else {
-      config.resolve.plugins = [new TsconfigPathsPlugin()]
-    }
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            replaceAttrValues: { '#000': 'currentColor' },
+          },
+        },
+        'url-loader',
+      ],
+    })
+
+    config.module.rules.push({
+      test: /\.(png|jpg|jpeg|gif)$/i,
+      use: 'url-loader',
+    })
 
     return config
   },
-  generateBuildId: async () => version,
-  experimental: {
-    reactRefresh: true,
-  },
-  env: {
-    SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
-    SPOTIFY_URL: process.env.SPOTIFY_URL,
-    ANALYTICS: process.env.ANALYTICS,
-  },
-  typescript: {
-    ignoreDevErrors: true,
-  },
-})
+}

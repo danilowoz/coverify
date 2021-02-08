@@ -1,4 +1,5 @@
 {
+  "extends": "./node_modules/@significa/tsconfig-config/index.json",
   "compilerOptions": {
     "isolatedModules": true,
     "baseUrl": "./src"
@@ -8,7 +9,6 @@
     "**/*.ts",
     "**/*.tsx"
   ],
-  "extends": "./node_modules/@significa/tsconfig-config/index.json",
   "exclude": [
     "node_modules"
   ]

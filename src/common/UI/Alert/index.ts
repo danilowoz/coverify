@@ -1,2 +1,1 @@
-export { useAlert } from 'react-alert'
-export { AlertProvider } from './Provider'
+export { useAlert, AlertProvider } from './Provider'
