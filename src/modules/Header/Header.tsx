@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
 import { ReactComponent as Logo } from 'common/assets/logo.svg'
@@ -16,15 +16,33 @@ import { useUser, useAuthentication } from 'services/authentication'
 import i18n from 'services/i18n'
 import { ReactComponent as Arrow } from 'common/assets/arrow-down.svg'
 import { Newsletter } from 'modules/Newsletter'
+import { Welcome } from 'modules/Welcome'
+import { isBrowser } from 'services/firebase.client'
 
 import { version } from '../../../package.json'
 
-type TabItems = 'newsletter' | 'sponsor' | undefined
+type TabItems = 'newsletter' | 'sponsor' | 'welcome' | undefined
 
 const Header: React.FC = () => {
   const user = useUser()
   const { logIn, signOut, deleteAccount } = useAuthentication()
   const [tabVisibility, setTabVisibility] = useState<TabItems>()
+
+  useLayoutEffect(() => {
+    if (user) {
+      setTabVisibility(undefined)
+    }
+
+    const timer = setTimeout(() => {
+      if (isBrowser) {
+        setTabVisibility(user ? undefined : 'welcome')
+      }
+    }, 3000)
+
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [user])
 
   const handleTabClick = (payload: TabItems) => {
     setTabVisibility((prev) => {
@@ -116,6 +134,29 @@ const Header: React.FC = () => {
           {renderUser()}
         </Flex>
       </HeaderContent>
+
+      <AnimatePresence>
+        {tabVisibility === 'welcome' && (
+          <motion.div
+            key="content"
+            initial="collapsed"
+            animate="open"
+            exit="collapsed"
+            variants={{
+              open: { opacity: 1, height: 'auto' },
+              collapsed: { opacity: 0, height: 0 },
+            }}
+            transition={{ duration: 0.7 }}
+          >
+            <TabContainer>
+              <Close type="button" onClick={() => setTabVisibility(undefined)}>
+                ×
+              </Close>
+              <Welcome />
+            </TabContainer>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {tabVisibility === 'sponsor' && (
