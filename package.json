@@ -2,7 +2,7 @@
   "name": "coverify",
   "version": "2.0.0",
   "description": "Create your custom cover for your Spotify playlists, choose from images, colors, and fonts that express your favorite songs.",
-  "url": "https://coverify.now.sh/",
+  "url": "https://getcoverify.com/",
   "main": "index.js",
   "scripts": {
     "setup": "npm i && cd ./functions && npm i && firebase functions:config:get > .runtimeconfig.json",
