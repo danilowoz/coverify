@@ -12,17 +12,17 @@ const SEO = () => {
 
       <title>{`${APP_NAME} - ${SHORT_DESCRIPTION}`}</title>
       <meta name="description" content={DESCRIPTION} />
-      <meta name="image" content={`${URL}share.png`} />
+      <meta name="image" content={`${URL}static/share.png`} />
 
       <meta property="og:url" content={URL} />
       <meta property="og:title" content={APP_NAME} />
       <meta property="og:description" content={DESCRIPTION} />
-      <meta property="og:image" content={`${URL}share.png`} />
+      <meta property="og:image" content={`${URL}static/share.png`} />
 
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={APP_NAME} />
       <meta name="twitter:description" content={DESCRIPTION} />
-      <meta name="twitter:image" content={`${URL}share.png`} />
+      <meta name="twitter:image" content={`${URL}static/share.png`} />
     </Head>
   )
 }
