@@ -3,16 +3,6 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import { getUserIdFromTokenId } from 'services/firebase.server'
 
-const checkUser = async (token: string) => {
-  const uid = await getUserIdFromTokenId(token as string)
-
-  if (uid) {
-    return uid
-  }
-
-  return false
-}
-
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   /**
    * SAVE
@@ -20,7 +10,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     try {
       // Check user
-      const uid = await checkUser(req.body.token)
+      const uid = await getUserIdFromTokenId(req.body.token)
 
       // Body
       const canvas = req.body.canvas
@@ -49,7 +39,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
      */
     try {
       // Check user
-      await checkUser(req.query.token as string)
+      await getUserIdFromTokenId(req.query.token as string)
 
       // Body
       const playlistId = req.query.playlistId
@@ -74,7 +64,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
      */
     try {
       // Check user
-      await checkUser(req.body.token)
+      await getUserIdFromTokenId(req.query.token as string)
 
       // Body
       const playlistId = req.query.playlistId
@@ -83,7 +73,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return
       }
 
-      admin.database().ref(`/playlistsSchema/${playlistId}`).remove()
+      await admin.database().ref(`/playlistsSchema/${playlistId}`).remove()
       res.status(200).json({ result: 'ok' })
     } catch (err) {
       res.status(400).json({ error: err.message })

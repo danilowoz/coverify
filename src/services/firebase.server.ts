@@ -22,12 +22,14 @@ const getSpotifyAccessToken = (
 
 const getUserIdFromTokenId = async (tokenId: string) => {
   const hasCreated = admin.apps.length > 0
+
   if (!hasCreated) {
     admin.initializeApp({
       credential: admin.credential.cert(ACCOUNT_SERVICE),
       databaseURL: URL_DATABASE,
     })
   }
+
   const decodedToken = await admin.auth().verifyIdToken(tokenId as string, true)
 
   return decodedToken.uid
