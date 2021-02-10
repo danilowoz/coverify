@@ -10,7 +10,7 @@ const getSpotifyAccessToken = (
     admin
       .database()
       .ref(`/spotifyAccessToken/${uid}`)
-      .on('value', async (snap) => {
+      .once('value', async (snap) => {
         const { refreshToken, accessToken } = snap.val() as Record<
           'accessToken' | 'refreshToken',
           string

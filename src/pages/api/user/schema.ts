@@ -22,7 +22,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       await admin.database().ref(`/playlistsSchema/${playlistId}`).set(canvas)
-      await admin
+      admin
         .database()
         .ref(`/spotifyAccessToken/${uid}/playlists`)
         .push(playlistId)
@@ -51,7 +51,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       admin
         .database()
         .ref(`/playlistsSchema/${playlistId}`)
-        .on('value', async (snap) => {
+        .once('value', async (snap) => {
           res.status(200).json({ result: snap.val() })
         })
     } catch (err) {

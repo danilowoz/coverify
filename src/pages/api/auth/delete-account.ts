@@ -21,7 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     admin
       .database()
       .ref(`/spotifyAccessToken/${userUid}/playlists`)
-      .on('value', async (snap) => {
+      .once('value', async (snap) => {
         const playlistIds = Object.values(snap.val())
 
         // Delete all schemas
