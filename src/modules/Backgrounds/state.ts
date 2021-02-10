@@ -17,7 +17,7 @@ const initialState: {
   data: [],
   pagination: {
     query: getRandomWordList(),
-    current: 0,
+    current: 1,
     history: [],
     hasNext: false,
   },
