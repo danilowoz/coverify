@@ -49,6 +49,7 @@
     "react-content-loader": "^5.1.4",
     "react-dom": "^17.0.1",
     "react-ga": "^3.3.0",
+    "react-hotjar": "^2.2.1",
     "react-i18next": "^11.7.3",
     "react-list": "^0.8.16",
     "react-redux": "^7.2.2",

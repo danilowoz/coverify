@@ -3,11 +3,14 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
+import { hotjar } from 'react-hotjar'
 
 import { globalStyle, AlertProvider, PromptProvider } from 'common/UI'
 import { DataProvider } from 'services/state'
 
 if (process.env.NODE_ENV === 'production') {
+  hotjar.initialize(2243483, 6)
+
   Sentry.init({
     dsn:
       'https://09a19839497447ee87e4dfba3c833429@o475287.ingest.sentry.io/5628413',
