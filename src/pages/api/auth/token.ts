@@ -66,8 +66,10 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
           const accessToken = data.body['access_token']
           const refreshToken = data.body['refresh_token']
           const spotifyUserID = userResults.body['id']
-          const profilePic = userResults.body?.['images']?.[0]?.['url'] ?? ''
           const userName = userResults.body?.['display_name'] ?? ''
+          const profilePic =
+            userResults.body?.['images']?.[0]?.['url'] ??
+            `https://eu.ui-avatars.com/api/?name=${userName.replace(/ /g, '+')}`
           const email = userResults.body['email']
 
           // Create a Firebase account and get the Custom Auth Token.
