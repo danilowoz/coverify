@@ -7,8 +7,7 @@ import i18n from 'services/i18n'
 import { canvasReducer } from 'modules/Canvas'
 import { playlistStateReducer } from 'modules/Playlist'
 import { backgroundsStateReducer } from 'modules/Backgrounds'
-
-import { authReducer } from './authentication'
+import { authReducer } from 'services/authentication/stateSlice'
 
 /**
  * Creating
