@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import * as Sentry from '@sentry/react'
@@ -9,8 +9,6 @@ import { globalStyle, AlertProvider, PromptProvider } from 'common/UI'
 import { DataProvider } from 'services/state'
 
 if (process.env.NODE_ENV === 'production') {
-  hotjar.initialize(2243483, 6)
-
   Sentry.init({
     dsn:
       'https://09a19839497447ee87e4dfba3c833429@o475287.ingest.sentry.io/5628413',
@@ -21,6 +19,12 @@ if (process.env.NODE_ENV === 'production') {
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   globalStyle()
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production') {
+      hotjar.initialize(2243483, 6)
+    }
+  }, [])
 
   return (
     <>
