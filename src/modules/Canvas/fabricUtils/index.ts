@@ -15,7 +15,7 @@ export interface CanvasElementsSchema {
     fontFamily: string
     fontSize: number
   }
-  types: {
+  types?: {
     fill: string
     relativeLeft: number
     relativeTop: number

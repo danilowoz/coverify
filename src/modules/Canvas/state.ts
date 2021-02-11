@@ -85,7 +85,7 @@ const { actions: canvasActions, reducer: canvasReducer } = createSlice({
       ...state,
       data: {
         ...state.data,
-        types: state.data.types.map((type, index) => {
+        types: (state.data.types ?? []).map((type, index) => {
           if (index === action.payload.index) {
             return {
               ...type,
@@ -108,7 +108,7 @@ const { actions: canvasActions, reducer: canvasReducer } = createSlice({
       ...state,
       data: {
         ...state.data,
-        types: state.data.types.map((type, index) => {
+        types: (state.data.types ?? []).map((type, index) => {
           if (index === 0) {
             return { ...type, fill: action.payload.foreground }
           }
@@ -199,7 +199,7 @@ const canvasSelector = {
   playlistId: (data: { canvas: typeof INITIAL_STATE }) =>
     data.canvas.config.playlistId,
   currentColors: (data: { canvas: typeof INITIAL_STATE }) =>
-    data.canvas.data.types.map((e) => e.fill),
+    (data.canvas.data.types ?? []).map((e) => e.fill),
   currentFontFamily: (data: { canvas: typeof INITIAL_STATE }) =>
     data.canvas.data.typeConfig.fontFamily,
 }
