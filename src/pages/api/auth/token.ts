@@ -32,16 +32,32 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
       throw new Error('State validation failed')
     }
 
+    type FirebaseBody = {
+      body: {
+        access_token: string
+        refresh_token: string
+      }
+    }
+
+    type SpotifyBody = {
+      body: {
+        id: string
+        images?: { url?: string }[]
+        display_name?: string
+        email: string
+      }
+    }
+
     Spotify.authorizationCodeGrant(
       req.query.code,
-      (error: string, data: any) => {
+      (error: string, data: FirebaseBody) => {
         if (error) {
           throw error
         }
 
         Spotify.setAccessToken(data.body['access_token'])
 
-        Spotify.getMe(async (error: string, userResults: any) => {
+        Spotify.getMe(async (error: string, userResults: SpotifyBody) => {
           if (error) {
             throw error
           }
@@ -50,7 +66,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
           const accessToken = data.body['access_token']
           const refreshToken = data.body['refresh_token']
           const spotifyUserID = userResults.body['id']
-          const profilePic = userResults.body?.['images']?.[0]['url'] ?? ''
+          const profilePic = userResults.body?.['images']?.[0]?.['url'] ?? ''
           const userName = userResults.body?.['display_name'] ?? ''
           const email = userResults.body['email']
 
