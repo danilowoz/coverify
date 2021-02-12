@@ -32,7 +32,7 @@
     "@sentry/react": "^6.1.0",
     "@sentry/tracing": "^6.1.0",
     "@stitches/react": "0.0.3-canary.4",
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "cookie": "^0.4.1",
     "fabric": "^4.2.0",
     "firebase": "^8.0.1",
