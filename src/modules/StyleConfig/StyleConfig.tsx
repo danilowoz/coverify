@@ -25,8 +25,10 @@ const StyleConfig: React.FC = () => {
 }
 
 const Container = styled('div', {
-  display: 'flex',
-  justifyContent: 'space-between',
+  aboveMedium: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
 })
 
 const SectionWrapper = styled('div', {

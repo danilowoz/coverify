@@ -73,7 +73,9 @@ const Colors: React.FC = () => {
 }
 
 const Wrapper = styled('div', {
-  width: '63%',
+  aboveMedium: {
+    width: '63%',
+  },
 })
 
 const Selected = styled('div', {
