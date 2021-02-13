@@ -26,6 +26,11 @@ const Nav = styled('nav', {
   display: 'flex',
   overflow: 'auto',
   flexWrap: 'nowrap',
+  marginLeft: '-$bodySmall',
+  marginRight: '-$bodySmall',
+  paddingLeft: '$bodySmall',
+  paddingRight: '$bodySmall',
+
   aboveMedium: {
     marginTop: '-$body',
   },

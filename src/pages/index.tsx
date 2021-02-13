@@ -59,7 +59,7 @@ const IndexPage: React.FC = () => {
               borderTopLeftRadius: isMenuOpened ? '1.5em' : '0em',
               borderTopRightRadius: isMenuOpened ? '1.5em' : '0em',
               height:
-                isMenuOpened && bellowMedium ? '90vh' : contentClosedHeight,
+                isMenuOpened && bellowMedium ? '75vh' : contentClosedHeight,
             }}
             transition={{ type: 'spring', duration: 0.6 }}
           >
