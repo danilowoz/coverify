@@ -1,15 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-import { Button, styled, Text } from 'common/UI'
+import { Button, css, styled, Text } from 'common/UI'
 import { useAuthentication } from 'services/authentication'
 
 import image from './image.gif'
 
-const Welcome: React.FC = () => {
+const TIMER_TO_CLOSE = 15_000
+
+const Welcome: React.FC<{ handleClose: () => void }> = ({ handleClose }) => {
   const { logIn } = useAuthentication()
+
+  useEffect(() => {
+    const timer = setTimeout(handleClose, TIMER_TO_CLOSE)
+
+    return () => clearTimeout(timer)
+  }, [handleClose])
 
   return (
     <Wrapper>
+      <Counter />
       <div>
         <Image src={image} alt="Coverify" />
       </div>
@@ -51,6 +60,26 @@ const Welcome: React.FC = () => {
     </Wrapper>
   )
 }
+
+const increaseAnimation = css.keyframes({
+  from: {
+    width: '0%',
+  },
+  to: {
+    width: '100%',
+  },
+})
+
+const Counter = styled('div', {
+  height: '1px',
+  backgroundColor: '$brand50',
+  width: '100%',
+  position: 'absolute',
+  left: 0,
+  right: 0,
+  top: -1,
+  animation: `${increaseAnimation} ${TIMER_TO_CLOSE}ms linear`,
+})
 
 const Image = styled('img', {
   borderRadius: '$small',

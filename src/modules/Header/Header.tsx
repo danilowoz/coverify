@@ -59,6 +59,8 @@ const Header: React.FC = () => {
     })
   }
 
+  const handelTabClose = () => setTabVisibility(undefined)
+
   const setNavigationValue = useCallback(
     (payload: string) => {
       dispatch(UINavigationActions.setMenuSlice(payload))
@@ -165,10 +167,10 @@ const Header: React.FC = () => {
             transition={{ duration: 0.7 }}
           >
             <TabContainer>
-              <Close type="button" onClick={() => setTabVisibility(undefined)}>
+              <Close type="button" onClick={handelTabClose}>
                 ×
               </Close>
-              <Welcome />
+              <Welcome handleClose={handelTabClose} />
             </TabContainer>
           </motion.div>
         )}
@@ -187,7 +189,7 @@ const Header: React.FC = () => {
             }}
           >
             <TabContainer>
-              <Close type="button" onClick={() => setTabVisibility(undefined)}>
+              <Close type="button" onClick={handelTabClose}>
                 ×
               </Close>
               <iframe
@@ -215,7 +217,7 @@ const Header: React.FC = () => {
             }}
           >
             <TabContainer>
-              <Close type="button" onClick={() => setTabVisibility(undefined)}>
+              <Close type="button" onClick={handelTabClose}>
                 ×
               </Close>
               <Newsletter />
