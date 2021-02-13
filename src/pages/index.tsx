@@ -19,6 +19,7 @@ const IndexPage: React.FC = () => {
 
   const menu = useAppSelector((store) => store.menu)
   const isMenuOpened = menu !== i18n.t('tabs.preview')
+
   const canvasBackgroundColor = useAppSelector(
     (store) => store.canvas.data.backgroundColor
   )

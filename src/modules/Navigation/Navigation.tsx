@@ -9,7 +9,7 @@ import { useBreakPoint } from 'common/utils/responsive'
 /**
  * State
  */
-const initialState = i18n.t('tabs.playlists')
+const initialState = i18n.t('tabs.preview')
 
 const { actions, reducer: UINavigationReducer } = createSlice({
   name: 'ui/menu',

@@ -3,7 +3,6 @@ import { Provider, useDispatch, useSelector } from 'react-redux'
 import { AnyAction, combineReducers, configureStore } from '@reduxjs/toolkit'
 
 import { UINavigationReducer } from 'modules/Navigation'
-import i18n from 'services/i18n'
 import { canvasReducer } from 'modules/Canvas'
 import { playlistStateReducer } from 'modules/Playlist'
 import { backgroundsStateReducer } from 'modules/Backgrounds'
@@ -12,10 +11,6 @@ import { authReducer } from 'services/authentication/stateSlice'
 /**
  * Creating
  */
-const veryInitialState = {
-  menu: i18n.t('tabs.playlists'),
-}
-
 const appReducer = combineReducers({
   canvas: canvasReducer,
   menu: UINavigationReducer,
@@ -29,7 +24,7 @@ const rootReducer = (state: any, action: AnyAction) => {
    * Reset the entire reducer
    */
   if (action.type === 'user/reset') {
-    state = veryInitialState
+    state = { menu: state.menu }
   }
 
   return appReducer(state, action)
@@ -37,7 +32,7 @@ const rootReducer = (state: any, action: AnyAction) => {
 
 const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
-  preloadedState: veryInitialState,
+  preloadedState: {},
   reducer: rootReducer,
 })
 
