@@ -18,6 +18,7 @@ import { ReactComponent as Arrow } from 'common/assets/arrow-down.svg'
 import { Newsletter } from 'modules/Newsletter'
 import { Welcome } from 'modules/Welcome'
 import { isBrowser } from 'services/firebase.client'
+import { useBreakPoint } from 'common/utils/responsive'
 
 import { version } from '../../../package.json'
 
@@ -27,6 +28,7 @@ const Header: React.FC = () => {
   const user = useUser()
   const { logIn, signOut, deleteAccount } = useAuthentication()
   const [tabVisibility, setTabVisibility] = useState<TabItems>()
+  const { aboveMedium } = useBreakPoint()
 
   useLayoutEffect(() => {
     if (user) {
@@ -34,7 +36,7 @@ const Header: React.FC = () => {
     }
 
     const timer = setTimeout(() => {
-      if (isBrowser) {
+      if (isBrowser && aboveMedium) {
         setTabVisibility(user ? undefined : 'welcome')
       }
     }, 3000)
@@ -42,7 +44,7 @@ const Header: React.FC = () => {
     return () => {
       clearTimeout(timer)
     }
-  }, [user])
+  }, [aboveMedium, user])
 
   const handleTabClick = (payload: TabItems) => {
     setTabVisibility((prev) => {
