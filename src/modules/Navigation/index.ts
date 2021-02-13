@@ -1,1 +1,5 @@
-export { UINavigationReducer, Navigation } from './Navigation'
+export {
+  UINavigationActions,
+  UINavigationReducer,
+  Navigation,
+} from './Navigation'

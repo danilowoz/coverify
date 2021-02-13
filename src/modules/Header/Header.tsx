@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
 import { ReactComponent as Logo } from 'common/assets/logo.svg'
@@ -19,12 +19,15 @@ import { Newsletter } from 'modules/Newsletter'
 import { Welcome } from 'modules/Welcome'
 import { isBrowser } from 'services/firebase.client'
 import { useBreakPoint } from 'common/utils/responsive'
+import { useAppDispatch } from 'services/state'
+import { UINavigationActions } from 'modules/Navigation'
 
 import { version } from '../../../package.json'
 
 type TabItems = 'newsletter' | 'sponsor' | 'welcome' | undefined
 
 const Header: React.FC = () => {
+  const dispatch = useAppDispatch()
   const user = useUser()
   const { logIn, signOut, deleteAccount } = useAuthentication()
   const [tabVisibility, setTabVisibility] = useState<TabItems>()
@@ -55,6 +58,13 @@ const Header: React.FC = () => {
       return payload
     })
   }
+
+  const setNavigationValue = useCallback(
+    (payload: string) => {
+      dispatch(UINavigationActions.setMenuSlice(payload))
+    },
+    [dispatch]
+  )
 
   const renderUser = () => {
     if (!user) {
@@ -118,7 +128,11 @@ const Header: React.FC = () => {
       <HeaderContent>
         <Flex variant="distribute">
           <MainMenu>
-            <Logo />
+            <Coverify
+              onClick={() => setNavigationValue(i18n.t('tabs.preview'))}
+            >
+              <Logo viewBox="0 0 132 29" />
+            </Coverify>
             <Text
               onClick={() => handleTabClick('sponsor')}
               css={{ marginLeft: '$s45', cursor: 'pointer' }}
@@ -223,6 +237,14 @@ const HeaderContent = styled('header', {
   },
 })
 
+const Coverify = styled('button', {
+  svg: {
+    bellowMedium: {
+      width: '7em',
+    },
+  },
+})
+
 const MainMenu = styled('header', {
   display: 'flex',
   alignItems: 'center',
@@ -232,6 +254,7 @@ const MainMenu = styled('header', {
     top: 2,
     display: 'none',
   },
+
   aboveMedium: {
     [`${Text}`]: {
       display: 'block',

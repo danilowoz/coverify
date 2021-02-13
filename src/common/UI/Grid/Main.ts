@@ -7,7 +7,6 @@ const Main = styled('main', {
   backgroundImage: 'linear-gradient(0deg, #101010 36%, #262525 100%)',
   position: 'relative',
   overflow: 'hidden',
-  zIndex: 99998888,
 
   padding: '$bodySmall',
   paddingBottom: '$s100',

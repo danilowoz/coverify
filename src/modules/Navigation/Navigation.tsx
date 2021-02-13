@@ -11,7 +11,10 @@ import { useBreakPoint } from 'common/utils/responsive'
  */
 const initialState = i18n.t('tabs.preview')
 
-const { actions, reducer: UINavigationReducer } = createSlice({
+const {
+  actions: UINavigationActions,
+  reducer: UINavigationReducer,
+} = createSlice({
   name: 'ui/menu',
   initialState,
   reducers: {
@@ -55,7 +58,7 @@ const Navigation: React.FC = () => {
 
   const setNavigationValue = useCallback(
     (payload: string) => {
-      dispatch(actions.setMenuSlice(payload))
+      dispatch(UINavigationActions.setMenuSlice(payload))
     },
     [dispatch]
   )
@@ -104,4 +107,4 @@ const Navigation: React.FC = () => {
   )
 }
 
-export { Navigation, UINavigationReducer }
+export { Navigation, UINavigationReducer, UINavigationActions }
