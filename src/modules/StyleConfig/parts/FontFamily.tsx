@@ -93,9 +93,6 @@ const FontFamily: React.FC = () => {
         {filterList.map((font) => {
           return (
             <Item key={font.family} onClick={() => handleHandle(font.family)}>
-              {/* <Head>
-                <link href={webFontUrlFormat(font.family)} rel="stylesheet" />
-              </Head> */}
               <Text
                 size="big"
                 css={{ marginRight: '$s5' }}

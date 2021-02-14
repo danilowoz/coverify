@@ -20,7 +20,7 @@ const INITIAL_STATE: {
       'https://images.unsplash.com/photo-1485872299829-c673f5194813?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxMjE4NjV8MHwxfHNlYXJjaHw0fHxwYXJ0eXxlbnwwfHx8&ixlib=rb-1.2.1&q=80&w=1080',
     backgroundColor: '#0c2640',
     typeConfig: {
-      fontFamily: 'Roboto',
+      fontFamily: 'Montserrat',
       fontSize: 20,
     },
     types: [
