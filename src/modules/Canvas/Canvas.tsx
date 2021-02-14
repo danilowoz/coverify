@@ -17,6 +17,7 @@ import exportSrc from './assets/export.svg'
 import { ReactComponent as SpotifyLogo } from './assets/spotify.svg'
 import loadingSrc from './assets/loading.svg'
 import { ReactComponent as TrashIcon } from './assets/trash.svg'
+import { ReactComponent as DownloadLogo } from './assets/download.svg'
 import { CanvasElementsSchema, getAllElementsPositions } from './fabricUtils'
 import { StageElements } from './StageElements'
 
@@ -71,18 +72,28 @@ const Canvas: React.FC = () => {
    * Handlers
    */
   const uploadCoverData = useSavePlaylist()
-  const saveCover = async () => {
+  const getImage = (): string | false => {
     if (fabricRef.current && canvasRef.current) {
-      setLoading(true)
-
-      const canvasContent = getAllElementsPositions(fabricRef.current)
-
       // Remove selection
       fabricRef.current.discardActiveObject().renderAll()
 
       const jpegImage = canvasRef.current
         .toDataURL('image/jpeg', 0.5)
         .replace(/^data:image\/jpeg;base64,/, '')
+
+      return jpegImage
+    }
+
+    return false
+  }
+
+  const saveCover = async () => {
+    const jpegImage = getImage()
+
+    if (fabricRef.current && canvasRef.current && jpegImage) {
+      setLoading(true)
+
+      const canvasContent = getAllElementsPositions(fabricRef.current)
 
       await uploadCoverData(
         {
@@ -95,6 +106,17 @@ const Canvas: React.FC = () => {
       )
 
       setLoading(false)
+    }
+  }
+
+  const downloadCover = async (fileName = 'Playlist') => {
+    const jpegImage = getImage()
+
+    if (jpegImage) {
+      const a = document.createElement('a')
+      a.href = `data:application/octet-stream;base64,${jpegImage}`
+      a.download = `${fileName} - getcoverify.com.jpg`
+      a.click()
     }
   }
 
@@ -134,7 +156,7 @@ const Canvas: React.FC = () => {
           {currentPlaylist?.description || i18n.t('descriptionFallback')}
         </Text>
 
-        <GroupButtons css={{ marginTop: '$s45' }}>
+        <GroupButtons>
           <MainButton onClick={saveCover}>
             <AnimatePresence>
               {loading && (
@@ -163,16 +185,26 @@ const Canvas: React.FC = () => {
 
           <GroupButtons>
             <CircularButton
+              brand
+              as="button"
+              onClick={() => downloadCover(currentPlaylist?.name)}
+            >
+              <DownloadLogo viewBox="0 0 26 26" />
+            </CircularButton>
+
+            <CircularButton
+              href={currentPlaylist?.uri}
+              css={{ marginRight: '$s10', marginLeft: '$s10' }}
+            >
+              <SpotifyLogo viewBox="0 0 26 26" />
+            </CircularButton>
+
+            <CircularButton
               animate={{ opacity: isSaved !== undefined ? 1 : 0.4 }}
               as={motion.button}
-              css={{ marginRight: '$s10' }}
               onClick={deleteCanvas}
             >
               <TrashIcon viewBox="0 0 24 24" />
-            </CircularButton>
-
-            <CircularButton href={currentPlaylist?.uri}>
-              <SpotifyLogo viewBox="0 0 26 26" />
             </CircularButton>
           </GroupButtons>
         </GroupButtons>
@@ -194,6 +226,7 @@ const GroupButtons = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
+  flexWrap: 'wrap',
 })
 
 const MainButton = styled('button', {
@@ -206,6 +239,7 @@ const MainButton = styled('button', {
   paddingRight: '$s10',
   paddingTop: '$s5',
   paddingBottom: '$s5',
+  marginTop: '$s45',
 
   fontSize: '$5',
   backgroundColor: '#55555513',
@@ -246,6 +280,8 @@ const CircularButton = styled('a', {
   borderColor: '$g00',
   borderRadius: '$big',
 
+  marginTop: '$s20',
+
   color: '$g00',
 
   minWidth: '2em',
@@ -254,6 +290,7 @@ const CircularButton = styled('a', {
   aboveMedium: {
     minWidth: '2.75em',
     height: '2.75em',
+    marginTop: '$s50',
   },
 
   display: 'flex',
@@ -261,6 +298,14 @@ const CircularButton = styled('a', {
 
   ':hover': {
     backgroundColor: '#55555590',
+  },
+
+  variants: {
+    brand: {
+      true: {
+        borderColor: '$brand50',
+      },
+    },
   },
 
   '*': {

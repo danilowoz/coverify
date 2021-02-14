@@ -33,7 +33,7 @@ const IndexPage: React.FC = () => {
     [bellowMedium]
   )
 
-  useLockBodyScroll(isMenuOpened)
+  useLockBodyScroll(bellowMedium && isMenuOpened)
 
   const menusOptions: { [key: string]: React.FC } = {
     [i18n.t('tabs.playlists')]: Playlist,
