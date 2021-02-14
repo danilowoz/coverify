@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useAppDispatch, useAppSelector } from 'services/state'
 import { styled, Tag, Text } from 'common/UI'
 import i18n from 'services/i18n'
+import { useUser } from 'services/authentication'
 
 import {
   useSavePlaylist,
@@ -36,6 +37,7 @@ const Canvas: React.FC = () => {
   /**
    * Store
    */
+  const isLogged = useUser()
   const dispatch = useAppDispatch()
   const canvasState = useAppSelector(canvasSelector.data, shallowEqual)
   const canvasOriginalState = useAppSelector((store) => store.canvas.data)
@@ -141,23 +143,30 @@ const Canvas: React.FC = () => {
       />
 
       <Wrapper>
-        <Flex>
-          <Text css={{ marginBottom: '$s10' }} size="small" uppercase>
-            {i18n.t('editingPlaylist')}
-          </Text>
+        {isLogged && (
+          <Flex>
+            <Text css={{ marginBottom: '$s10' }} size="small" uppercase>
+              {i18n.t('editingPlaylist')}
+            </Text>
 
-          <div>{tagStatus()}</div>
-        </Flex>
+            <div>{tagStatus()}</div>
+          </Flex>
+        )}
 
         <Text size="bigger" bold>
-          {currentPlaylist?.name}
+          {isLogged ? currentPlaylist?.name : 'Coverify'}
         </Text>
         <Text css={{ opacity: 0.6, marginTop: '$s5' }}>
           {currentPlaylist?.description || i18n.t('descriptionFallback')}
         </Text>
 
         <GroupButtons>
-          <MainButton onClick={saveCover}>
+          <MainButton
+            onClick={saveCover}
+            animate={{ opacity: isLogged ? 1 : 0.4 }}
+            as={motion.button}
+            disabled={!isLogged}
+          >
             <AnimatePresence>
               {loading && (
                 <motion.img
@@ -186,7 +195,6 @@ const Canvas: React.FC = () => {
           <GroupButtons>
             <CircularButton
               brand
-              as="button"
               onClick={() => downloadCover(currentPlaylist?.name)}
             >
               <DownloadLogo viewBox="0 0 26 26" />
@@ -195,6 +203,8 @@ const Canvas: React.FC = () => {
             <CircularButton
               href={currentPlaylist?.uri}
               css={{ marginRight: '$s10', marginLeft: '$s10' }}
+              animate={{ opacity: isLogged ? 1 : 0.4 }}
+              as={motion.a}
             >
               <SpotifyLogo viewBox="0 0 26 26" />
             </CircularButton>
@@ -203,6 +213,7 @@ const Canvas: React.FC = () => {
               animate={{ opacity: isSaved !== undefined ? 1 : 0.4 }}
               as={motion.button}
               onClick={deleteCanvas}
+              disabled={!isLogged}
             >
               <TrashIcon viewBox="0 0 24 24" />
             </CircularButton>

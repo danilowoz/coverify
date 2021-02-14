@@ -5,7 +5,7 @@ import pixelate from './filter-assets/pixelate.jpg'
 import grayscaleGrayscale from './filter-assets/pixelate-grayscale.jpg'
 import grayscale from './filter-assets/grayscale.jpg'
 import spotifyProfile from './filter-assets/spotify-profile.png'
-import spotify from './filter-assets/spotify.jpg'
+import spotify1 from './filter-assets/spotify.jpg'
 import spotify2 from './filter-assets/spotify2.jpg'
 import spotify3 from './filter-assets/spotify3.jpg'
 import spotify4 from './filter-assets/spotify4.jpg'
@@ -70,7 +70,7 @@ const FILTER_OPTIONS: Schema = [
     },
   },
   {
-    name: 'Spotify profile',
+    name: 'Profile',
     preview: spotifyProfile,
     data: {
       gradients: {
@@ -111,8 +111,8 @@ const FILTER_OPTIONS: Schema = [
     },
   },
   {
-    name: 'Spotify ',
-    preview: spotify,
+    name: 'I',
+    preview: spotify1,
     data: {
       gradients: {
         list: [
@@ -145,7 +145,7 @@ const FILTER_OPTIONS: Schema = [
     },
   },
   {
-    name: 'Spotify II',
+    name: 'II',
     preview: spotify2,
     data: {
       gradients: {
@@ -183,7 +183,7 @@ const FILTER_OPTIONS: Schema = [
     },
   },
   {
-    name: 'Spotify III',
+    name: 'III',
     preview: spotify3,
     data: {
       gradients: {
@@ -221,7 +221,7 @@ const FILTER_OPTIONS: Schema = [
     },
   },
   {
-    name: 'Spotify IV',
+    name: 'IV',
     preview: spotify4,
     data: {
       gradients: {
@@ -251,7 +251,7 @@ const FILTER_OPTIONS: Schema = [
     },
   },
   {
-    name: 'Spotify V',
+    name: 'V',
     preview: spotify5,
     data: {
       gradients: {
@@ -285,7 +285,7 @@ const FILTER_OPTIONS: Schema = [
     },
   },
   {
-    name: 'Spotify VI',
+    name: 'VI',
     preview: spotify6,
     data: {
       gradients: {
@@ -315,7 +315,7 @@ const FILTER_OPTIONS: Schema = [
     },
   },
   {
-    name: 'Spotify VII',
+    name: 'VII',
     preview: spotify7,
     data: {
       gradients: {
@@ -341,7 +341,7 @@ const FILTER_OPTIONS: Schema = [
     },
   },
   {
-    name: 'Spotify VIII',
+    name: 'VIII',
     preview: spotify8,
     data: {
       gradients: {
@@ -375,7 +375,7 @@ const FILTER_OPTIONS: Schema = [
     },
   },
   {
-    name: 'Spotify IX',
+    name: 'IX',
     preview: spotify9,
     data: {
       gradients: {

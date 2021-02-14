@@ -38,7 +38,7 @@ const INITIAL_STATE: {
         relativeTop: 0.41,
         scaleX: 2.8,
         scaleY: 2.8,
-        text: 'Coverify',
+        text: 'Start \ncreating',
         fontWeight: 'bold',
       },
     ],

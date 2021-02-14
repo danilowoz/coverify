@@ -13,7 +13,7 @@ export default {
     },
     cancel: 'Cancel',
     currentColors: 'Current colors',
-    descriptionFallback: 'Give your playlist a catchy description',
+    descriptionFallback: 'Give your playlist a fresh cover art',
     discardChanges: 'Discard changes?',
     draft: 'Draft',
     editing: 'Editing',
