@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
-import { hotjar } from 'react-hotjar'
 
 import { globalStyle, AlertProvider, PromptProvider } from 'common/UI'
 import { DataProvider } from 'services/state'
@@ -19,12 +18,6 @@ if (process.env.NODE_ENV === 'production') {
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   globalStyle()
-
-  useEffect(() => {
-    if (process.env.NODE_ENV === 'production') {
-      hotjar.initialize(2243483, 6)
-    }
-  }, [])
 
   return (
     <>
