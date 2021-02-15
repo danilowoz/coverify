@@ -70,14 +70,12 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
           const profilePic =
             userResults.body?.['images']?.[0]?.['url'] ??
             `https://eu.ui-avatars.com/api/?name=${userName.replace(/ /g, '+')}`
-          const email = userResults.body['email']
 
           // Create a Firebase account and get the Custom Auth Token.
           const firebaseToken = await createFirebaseAccount(
             spotifyUserID,
             userName,
             profilePic,
-            email,
             accessToken,
             refreshToken
           )
@@ -105,7 +103,6 @@ async function createFirebaseAccount(
   spotifyID: string,
   displayName: string,
   photoURL: string,
-  email: string,
   accessToken: string,
   refreshToken: string
 ) {
@@ -125,8 +122,6 @@ async function createFirebaseAccount(
     .updateUser(uid, {
       displayName: displayName,
       photoURL: photoURL,
-      email: email,
-      emailVerified: true,
     })
     .catch((error: any) => {
       // If user does not exists we create it.
@@ -135,8 +130,6 @@ async function createFirebaseAccount(
           uid: uid,
           displayName: displayName,
           photoURL: photoURL,
-          email: email,
-          emailVerified: true,
         })
       }
       throw error
