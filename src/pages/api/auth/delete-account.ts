@@ -22,12 +22,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       .database()
       .ref(`/spotifyAccessToken/${userUid}/playlists`)
       .once('value', async (snap) => {
-        const playlistIds = Object.values(snap.val())
+        const values = snap.val()
 
-        // Delete all schemas
-        playlistIds.forEach(async (playlist) => {
-          await admin.database().ref(`/playlistsSchema/${playlist}`).remove()
-        })
+        if (values) {
+          const playlistIds = Object.values(values)
+
+          // Delete all schemas
+          playlistIds.forEach(async (playlist) => {
+            await admin.database().ref(`/playlistsSchema/${playlist}`).remove()
+          })
+        }
 
         // Delete user
         await admin.database().ref(`/spotifyAccessToken/${userUid}`).remove()
