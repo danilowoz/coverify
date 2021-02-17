@@ -5,6 +5,7 @@ import {
   getSpotifyAccessToken,
   getUserIdFromTokenId,
 } from 'services/firebase.server'
+import { encrypt } from 'common/utils/encrypt'
 
 const API = 'https://api.spotify.com/v1'
 
@@ -59,7 +60,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (dataFromApi) {
       const result: ApiPlaylistResult = { ...dataFromApi.data, limit: LIMIT }
 
-      res.status(200).json(result)
+      res.status(200).json({
+        ...result,
+        items: result.items.map((e) => {
+          return {
+            ...e,
+            owner: {
+              ...e.owner,
+              id: encrypt(e.owner?.id ?? ''),
+            },
+          }
+        }),
+      })
       return
     }
   } catch (err) {

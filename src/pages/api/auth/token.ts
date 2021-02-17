@@ -2,6 +2,7 @@
 import * as admin from 'firebase-admin'
 import { NextApiRequest, NextApiResponse } from 'next'
 
+import { encrypt } from 'common/utils/encrypt'
 import { initializeAdminApp } from 'services/firebase.server'
 
 const REDIRECT_URL = process.env.SPOTIFY_URL || 'http://localhost:3000/signin'
@@ -109,7 +110,7 @@ async function createFirebaseAccount(
   initializeAdminApp()
 
   // The UID we'll assign to the user.
-  const uid = `spotify:${spotifyID}`
+  const uid = encrypt(spotifyID)
 
   await admin
     .database()
