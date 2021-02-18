@@ -1,5 +1,6 @@
 import React, { useCallback, useLayoutEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import Link from 'next/link'
 
 import { ReactComponent as Logo } from 'common/assets/logo.svg'
 import {
@@ -100,6 +101,10 @@ const Header: React.FC = () => {
                 headerStyle: true,
               },
               {
+                text: i18n.t('privacyPolicy'),
+                src: '/privacy-policy',
+              },
+              {
                 text: i18n.t('githubSourceCode'),
                 src:
                   'https://github.com/danilowoz/coverify/issues/new?assignees=&labels=bug&template=bug_report.md&title=',
@@ -130,10 +135,12 @@ const Header: React.FC = () => {
       <HeaderContent>
         <Flex variant="distribute">
           <MainMenu>
-            <Coverify
-              onClick={() => setNavigationValue(i18n.t('tabs.preview'))}
-            >
-              <Logo viewBox="0 0 132 29" />
+            <Coverify href="/">
+              <InternalLink
+                onClick={() => setNavigationValue(i18n.t('tabs.preview'))}
+              >
+                <Logo viewBox="0 0 132 29" />
+              </InternalLink>
             </Coverify>
             <Text
               onClick={() => handleTabClick('sponsor')}
@@ -147,6 +154,14 @@ const Header: React.FC = () => {
             >
               {i18n.t('whatsNew')}
             </Text>
+
+            <Link href="/privacy-policy" passHref>
+              <InternalLink>
+                <Text css={{ marginLeft: '$s20' }}>
+                  {i18n.t('privacyPolicy')}
+                </Text>
+              </InternalLink>
+            </Link>
           </MainMenu>
 
           {renderUser()}
@@ -239,13 +254,15 @@ const HeaderContent = styled('header', {
   },
 })
 
-const Coverify = styled('button', {
+const Coverify = styled(Link, {
   svg: {
     bellowMedium: {
       width: '7em',
     },
   },
 })
+
+const InternalLink = styled('a', { textDecoration: 'none', cursor: 'pointer' })
 
 const MainMenu = styled('header', {
   display: 'flex',

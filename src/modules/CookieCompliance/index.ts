@@ -1,0 +1,1 @@
+export { CookieCompliance } from './CookieCompliance'

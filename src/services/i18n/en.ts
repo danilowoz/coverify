@@ -1,6 +1,10 @@
 export default {
   translation: {
+    cookieCompliance:
+      'To help personalise content, tailor your experience and help us improve our services, Coverify uses cookies. By navigating our site, you agree to allow us to use cookies, in accordance with our Privacy Policy.',
+    cookieComplianceAccept: 'Ok, I get it',
     allCategories: 'All categories',
+    privacyPolicy: 'Privacy Policy',
     alert: {
       401: 'Sorry, but your session has expired.',
       noPlaylist: 'No playlist belonging to you has been found.',

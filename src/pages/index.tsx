@@ -13,6 +13,7 @@ import i18n from 'services/i18n'
 import { useBreakPoint } from 'common/utils/responsive'
 import { useLockBodyScroll } from 'common/utils/layout'
 import SEO from 'modules/SEO'
+import { CookieCompliance } from 'modules/CookieCompliance'
 
 const IndexPage: React.FC = () => {
   const [contentClosedHeight, setContentClosedHeight] = useState('auto')
@@ -71,6 +72,8 @@ const IndexPage: React.FC = () => {
           </HandleContent>
         </Layout>
       </Main>
+
+      <CookieCompliance />
     </>
   )
 }

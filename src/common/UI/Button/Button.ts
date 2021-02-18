@@ -10,6 +10,7 @@ const Button = styled('button', {
   padding: '$s10 $s20',
   borderWidth: '1px',
   borderStyle: 'solid',
+  whiteSpace: 'nowrap',
 
   ':active': {
     color: '$g00',
