@@ -70,7 +70,9 @@ const usePlaylists = () => {
       } catch (err) {
         setLoading(false)
         if (err.response.statusText === 'Unauthorized') {
-          refreshAccessToken(getPlaylists)
+          setTimeout(() => {
+            refreshAccessToken(getPlaylists)
+          }, 10)
         }
       }
     }

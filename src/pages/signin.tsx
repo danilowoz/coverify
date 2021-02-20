@@ -1,4 +1,5 @@
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 import { useEffect } from 'react'
 
 import { initializeApp, isBrowser } from 'services/firebase.client'

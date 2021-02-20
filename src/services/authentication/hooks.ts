@@ -1,4 +1,5 @@
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 import { useCallback, useEffect } from 'react'
 import axios from 'axios'
 import { shallowEqual } from 'react-redux'
