@@ -68,7 +68,8 @@ const useBackgrounds = () => {
         setLoading(false)
       } catch (err) {
         setLoading(false)
-        if (err.response.statusText === 'Unauthorized') {
+        const status = [err.response.statusText, err.response.data.error]
+        if (status.some((e) => e === 'Unauthorized')) {
           refreshAccessToken(getData)
         }
       }

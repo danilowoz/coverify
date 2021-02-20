@@ -43,7 +43,8 @@ const useSavePlaylist = () => {
 
       dispatchAlert({ message: i18n.t('alert.coverUpdated'), type: 'success' })
     } catch (err) {
-      if (err.response.statusText === 'Unauthorized') {
+      const status = [err.response.statusText, err.response.data.error]
+      if (status.some((e) => e === 'Unauthorized')) {
         refreshAccessToken(() => handle(canvas, jpegImage))
       } else {
         dispatchAlert({ message: err.message, type: 'error' })
