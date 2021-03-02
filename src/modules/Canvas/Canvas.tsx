@@ -195,9 +195,10 @@ const Canvas: React.FC = () => {
           <GroupButtons>
             <CircularButton
               brand
+              as="button"
               onClick={() => downloadCover(currentPlaylist?.name)}
             >
-              <DownloadLogo viewBox="0 0 26 26" />
+              <DownloadLogo viewBox="0 0 23 23" style={{ width: '1.2em' }} />
             </CircularButton>
 
             <CircularButton
@@ -206,7 +207,7 @@ const Canvas: React.FC = () => {
               animate={{ opacity: isLogged ? 1 : 0.4 }}
               as={motion.a}
             >
-              <SpotifyLogo viewBox="0 0 26 26" />
+              <SpotifyLogo viewBox="0 0 26 26" style={{ width: '1.4em' }} />
             </CircularButton>
 
             <CircularButton
@@ -215,7 +216,7 @@ const Canvas: React.FC = () => {
               onClick={deleteCanvas}
               disabled={!isLogged}
             >
-              <TrashIcon viewBox="0 0 24 24" />
+              <TrashIcon viewBox="0 0 23 23" style={{ width: '1.1em' }} />
             </CircularButton>
           </GroupButtons>
         </GroupButtons>
