@@ -12,7 +12,7 @@ const Button = styled('button', {
   borderStyle: 'solid',
   whiteSpace: 'nowrap',
 
-  ':active': {
+  '&:active': {
     color: '$g00',
   },
 
@@ -29,7 +29,7 @@ const Button = styled('button', {
     },
   },
 
-  aboveMedium: {
+  '@aboveMedium': {
     padding: '$s10 $s30',
   },
 })

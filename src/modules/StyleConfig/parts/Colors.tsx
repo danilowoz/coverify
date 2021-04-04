@@ -73,7 +73,7 @@ const Colors: React.FC = () => {
 }
 
 const Wrapper = styled('div', {
-  aboveMedium: {
+  '@aboveMedium': {
     width: '63%',
   },
 })

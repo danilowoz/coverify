@@ -11,11 +11,11 @@ const Main = styled('main', {
   padding: '$bodySmall',
   paddingBottom: '$s100',
 
-  aboveMedium: {
+  '@aboveMedium': {
     padding: '$body',
   },
 
-  ':before': {
+  '&:before': {
     content: "''",
     position: 'absolute',
     top: '-40%',

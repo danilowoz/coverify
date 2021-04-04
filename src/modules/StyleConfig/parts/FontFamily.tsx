@@ -114,7 +114,7 @@ const FontFamily: React.FC = () => {
 
 const Wrapper = styled('div', {
   minWidth: '34%',
-  bellowMedium: {
+  '@bellowMedium': {
     marginTop: '$s50',
   },
 })

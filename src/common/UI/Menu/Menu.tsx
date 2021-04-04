@@ -10,7 +10,10 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { styled } from '../Layout'
 import { Text } from '../Text'
 
-const RelativeContext = styled('div', { position: 'relative', display: 'flex' })
+const RelativeContext = styled('div', {
+  position: 'relative',
+  display: 'flex',
+})
 
 const Wrapper = styled(motion.div, {
   backgroundColor: '$g50',
@@ -32,7 +35,7 @@ const buttonStyle = {
   color: 'inherit',
   textDecoration: 'none',
 
-  ':hover': {
+  '&:hover': {
     opacity: '.7',
   },
 }

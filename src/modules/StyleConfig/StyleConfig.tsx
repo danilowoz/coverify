@@ -25,7 +25,7 @@ const StyleConfig: React.FC = () => {
 }
 
 const Container = styled('div', {
-  aboveMedium: {
+  '@aboveMedium': {
     display: 'flex',
     justifyContent: 'space-between',
   },

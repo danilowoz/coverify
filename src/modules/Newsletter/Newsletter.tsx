@@ -80,7 +80,7 @@ const Input = styled('input', {
   borderRadius: '30px',
   marginRight: '1em',
 
-  aboveSmall: {
+  '@aboveSmall': {
     width: '30em',
   },
 })

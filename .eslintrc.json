@@ -1,9 +1,0 @@
-{
-  "extends": "@significa/eslint-config",
-  "settings": {
-    "import/internal-regex": "^common|^services/|^modules/|^pages/|^types"
-  },
-  "rules": {
-    "@typescript-eslint/explicit-module-boundary-types": "off"
-  }
-}

@@ -87,14 +87,14 @@ const Layout = styled('div', {
   zIndex: 2,
   minHeight: MAIN_HEIGHT_MOBILE,
 
-  aboveMedium: {
+  '@aboveMedium': {
     minHeight: 'auto',
     display: 'flex',
   },
 })
 
 const Stage = styled('div', {
-  aboveMedium: {
+  '@aboveMedium': {
     height: '100%',
     width: '30%',
     marginRight: '$body',
@@ -110,7 +110,7 @@ const HandleContent = styled(motion.div, {
   boxShadow: '0 -1px 7px 0 rgba(0,0,0,0.3)',
   overflow: 'auto',
 
-  aboveMedium: {
+  '@aboveMedium': {
     overflow: 'visible',
     boxShadow: 'none',
     backgroundColor: 'transparent',
@@ -123,7 +123,7 @@ const ScrollView = styled('section', {
   paddingLeft: '$bodySmall',
   paddingRight: '$bodySmall',
 
-  aboveMedium: {
+  '@aboveMedium': {
     marginRight: '-$body',
     marginLeft: '$body',
     marginTop: '-$body',

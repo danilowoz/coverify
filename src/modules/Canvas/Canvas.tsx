@@ -261,11 +261,11 @@ const MainButton = styled('button', {
   alignItems: 'center',
   position: 'relative',
 
-  ':hover': {
+  '&:hover': {
     backgroundColor: '#55555590',
   },
 
-  aboveMedium: {
+  '@aboveMedium': {
     paddingLeft: '$s50',
     paddingRight: '$s30',
     paddingTop: '$s10',
@@ -280,7 +280,7 @@ const MainButton = styled('button', {
     position: 'absolute',
     left: '$s20',
 
-    aboveMedium: {
+    '@aboveMedium': {
       display: 'block',
     },
   },
@@ -299,7 +299,7 @@ const CircularButton = styled('a', {
   minWidth: '2em',
   height: '2em',
 
-  aboveMedium: {
+  '@aboveMedium': {
     minWidth: '2.75em',
     height: '2.75em',
     marginTop: '$s50',
@@ -308,7 +308,7 @@ const CircularButton = styled('a', {
   display: 'flex',
   transition: 'all',
 
-  ':hover': {
+  '&:hover': {
     backgroundColor: '#55555590',
   },
 

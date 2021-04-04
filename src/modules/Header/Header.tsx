@@ -249,14 +249,14 @@ const HeaderContent = styled('header', {
   position: 'relative',
   zIndex: 999,
 
-  aboveMedium: {
+  '@aboveMedium': {
     padding: '$s10 $body',
   },
 })
 
 const Coverify = styled(Link, {
   svg: {
-    bellowMedium: {
+    '@bellowMedium': {
       width: '7em',
     },
   },
@@ -274,7 +274,7 @@ const MainMenu = styled('header', {
     display: 'none',
   },
 
-  aboveMedium: {
+  '@aboveMedium': {
     [`${Text}`]: {
       display: 'block',
     },

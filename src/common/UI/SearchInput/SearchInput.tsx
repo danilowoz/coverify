@@ -19,11 +19,11 @@ const SearchInput = styled('input', {
   backgroundPositionY: 'center',
   transition: 'background',
 
-  ':focus': {
+  '&:focus': {
     backgroundColor: 'rgba(0,0,0,0.2)',
   },
 
-  '::-webkit-input-placeholder': {
+  '&::-webkit-input-placeholder': {
     color: '$g10',
   },
 })
