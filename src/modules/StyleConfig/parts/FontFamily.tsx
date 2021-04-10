@@ -73,7 +73,7 @@ const FontFamily: React.FC = () => {
             setSearchQuery(event.target.value)
           }}
           placeholder={i18n.t('searchPlaceholder')}
-          css={{ marginTop: 0, marginBottom: '1.75em' }}
+          css={{ marginTop: 0, marginBottom: '2.35em' }}
         />
 
         {/* eslint-disable-next-line jsx-a11y/no-onchange */}
@@ -114,7 +114,7 @@ const FontFamily: React.FC = () => {
 
 const Wrapper = styled('div', {
   minWidth: '34%',
-  bellowMedium: {
+  '@bellowMedium': {
     marginTop: '$s50',
   },
 })

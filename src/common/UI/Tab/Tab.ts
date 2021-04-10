@@ -16,7 +16,7 @@ const Tab = styled('button', {
   marginRight: '$s30',
   justifyContent: 'center',
 
-  aboveMedium: {
+  '@aboveMedium': {
     marginLeft: '$s50',
     marginRight: '3%',
     marginBottom: '$body',

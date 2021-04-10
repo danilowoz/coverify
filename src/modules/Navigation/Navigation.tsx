@@ -34,7 +34,7 @@ const Nav = styled('nav', {
   paddingLeft: '$bodySmall',
   paddingRight: '$bodySmall',
 
-  aboveMedium: {
+  '@aboveMedium': {
     marginTop: '-$body',
   },
 })

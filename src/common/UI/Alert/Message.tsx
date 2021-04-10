@@ -40,7 +40,7 @@ const Retry = styled('button', {
   textDecoration: 'underline',
   marginLeft: '$s10',
 
-  ':hover': {
+  '&:hover': {
     textDecoration: 'none',
   },
 })

@@ -39,11 +39,11 @@ const Grid = styled('div', {
     content: "''",
     width: '100%',
 
-    aboveSmall: {
+    '@aboveSmall': {
       width: 'calc((100% / 2) - .6em)',
     },
 
-    aboveMedium: {
+    '@aboveMedium': {
       width: 'calc((100% / 5) - (.6em * 2))',
     },
   },
@@ -51,7 +51,7 @@ const Grid = styled('div', {
   '> *': {
     width: 'calc((100% / 2) - .6em)',
 
-    aboveMedium: {
+    '@aboveMedium': {
       width: 'calc((100% / 5) - (.6em * 2))',
     },
   },
