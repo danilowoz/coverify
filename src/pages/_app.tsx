@@ -1,20 +1,9 @@
 import React from 'react'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import * as Sentry from '@sentry/react'
-import { Integrations } from '@sentry/tracing'
 
 import { globalStyle, AlertProvider, PromptProvider } from 'common/UI'
 import { DataProvider } from 'services/state'
-
-if (process.env.NODE_ENV === 'production') {
-  Sentry.init({
-    dsn:
-      'https://09a19839497447ee87e4dfba3c833429@o475287.ingest.sentry.io/5628413',
-    integrations: [new Integrations.BrowserTracing()],
-    tracesSampleRate: 1.0,
-  })
-}
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   globalStyle()
@@ -29,15 +18,13 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         />
       </Head>
 
-      <Sentry.ErrorBoundary fallback={'An error has occurred'}>
-        <AlertProvider>
-          <PromptProvider>
-            <DataProvider>
-              <Component {...pageProps} />
-            </DataProvider>
-          </PromptProvider>
-        </AlertProvider>
-      </Sentry.ErrorBoundary>
+      <AlertProvider>
+        <PromptProvider>
+          <DataProvider>
+            <Component {...pageProps} />
+          </DataProvider>
+        </PromptProvider>
+      </AlertProvider>
     </>
   )
 }

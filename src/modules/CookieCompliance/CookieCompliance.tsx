@@ -54,7 +54,7 @@ const Wrapper = styled(motion.div, {
     marginTop: '$s10',
   },
 
-  aboveMedium: {
+  '@aboveMedium': {
     [`${Button}`]: {
       flex: 1,
       marginTop: '0',

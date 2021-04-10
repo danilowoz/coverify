@@ -1,6 +1,6 @@
-import { css } from './theme'
+import { global } from './theme'
 
-const globalStyle = css.global({
+const globalStyle = global({
   '*': {
     margin: 0,
     outline: 0,

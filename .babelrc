@@ -1,4 +1,3 @@
 {
-  "presets": ["next/babel"],
-  "plugins": ["transform-stitches-display-name"]
+  "presets": ["next/babel"]
 }

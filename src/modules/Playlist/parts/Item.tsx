@@ -130,8 +130,6 @@ const EditingWrapper = styled('div', {
 
 const EditingContainer = styled('div', {
   textAlign: 'center',
-  backgroundColor: '$g55',
-  borderRadius: '100%',
 
   display: 'flex',
   flexDirection: 'column',
@@ -141,6 +139,25 @@ const EditingContainer = styled('div', {
   height: '30%',
   width: '30%',
   margin: 'auto',
+
+  position: 'relative',
+
+  '&:before': {
+    content: "''",
+    backgroundColor: '$g50',
+    borderRadius: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 0,
+    opacity: '.8',
+  },
+
+  '*': {
+    position: 'relative',
+  },
 
   svg: {
     width: '30%',

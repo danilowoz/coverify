@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 
-import { Button, css, styled, Text } from 'common/UI'
+import { Button, styled, Text } from 'common/UI'
 import { useAuthentication } from 'services/authentication'
+import { keyframes } from 'common/UI/Layout/theme'
 
 import image from './image.gif'
 
@@ -61,7 +62,7 @@ const Welcome: React.FC<{ handleClose: () => void }> = ({ handleClose }) => {
   )
 }
 
-const increaseAnimation = css.keyframes({
+const increaseAnimation = keyframes({
   from: {
     width: '0%',
   },
