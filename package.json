@@ -16,7 +16,7 @@
     "format": "prettier \"./src/**/*.+(ts|tsx|js|jsx|json|yml|yaml|md|mdx)\"",
     "format:write": "npm run format -- --write",
     "validate:format": "npm run format -- --check",
-    "validate:build": "tsc --noEmit",
+    "validate:build": "tsc",
     "validate": "npm run lint && npm run validate:format && npm run validate:build"
   },
   "keywords": [],
@@ -31,7 +31,7 @@
     "@semantic-release/release-notes-generator": "^9.0.1",
     "@sentry/react": "^6.1.0",
     "@sentry/tracing": "^6.1.0",
-    "@stitches/react": "v0.1.4",
+    "@stitches/react": "v0.1.5",
     "axios": "^0.21.1",
     "cookie": "^0.4.1",
     "fabric": "^4.2.0",
@@ -81,7 +81,7 @@
     "husky": "^4.3.0",
     "lint-staged": "^10.5.1",
     "redux-devtools-extension": "^2.13.8",
-    "typescript": "^4.0.5",
+    "typescript": "^4.2.4",
     "url-loader": "^4.1.1"
   }
 }

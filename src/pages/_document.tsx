@@ -1,11 +1,5 @@
 import React from 'react'
-import NextDocument, {
-  DocumentContext,
-  Head,
-  Html,
-  Main,
-  NextScript,
-} from 'next/document'
+import NextDocument, { Head, Html, Main, NextScript } from 'next/document'
 
 import { getCssString } from 'common/UI'
 

@@ -1,15 +1,9 @@
 {
   "extends": "./node_modules/@significa/tsconfig-config/index.json",
   "compilerOptions": {
-    "isolatedModules": true,
+    "noEmit": true,
     "baseUrl": "./src"
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }

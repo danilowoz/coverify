@@ -43,19 +43,10 @@ const Text = styled('p', {
         color: '$g00',
       },
       g10: {
-        color: '$g10',
-      },
-      g20: {
-        color: '$g20',
+        color: '$g00',
       },
       g30: {
         color: '$g30',
-      },
-      g40: {
-        color: '$g40',
-      },
-      g50: {
-        color: '$g50',
       },
       g90: {
         color: '$g90',

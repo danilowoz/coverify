@@ -4,9 +4,9 @@ const { styled, css, global, keyframes, getCssString } = createCss({
   theme: {
     colors: {
       g90: '#000',
+      g90Alpha: 'rgba(0,0,0,0.49)',
+      g80: '#101010',
       g50: '#262525',
-      g55: '#26252590',
-      g40: '#232323',
       g35: 'rgba(151,151,151,.09)',
       g30: '#555555',
       g20: '#E9E9E9',

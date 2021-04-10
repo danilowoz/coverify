@@ -106,7 +106,7 @@ const HandleContent = styled(motion.div, {
   bottom: 0,
   left: 0,
   right: 0,
-  backgroundColor: '$g40',
+  backgroundColor: '$g50',
   boxShadow: '0 -1px 7px 0 rgba(0,0,0,0.3)',
   overflow: 'auto',
 
