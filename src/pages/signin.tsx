@@ -1,6 +1,6 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 
 import { initializeApp, isBrowser } from 'services/firebase.client'
 
@@ -57,7 +57,8 @@ const FirebaseSign: React.FC = () => {
       }
     }
   }, [])
-  return null
+
+  return <p>Loading</p>
 }
 
 export default FirebaseSign
