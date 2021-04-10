@@ -38,7 +38,6 @@ export default {
     saved: 'Saved',
     searchPlaceholder: 'Search...',
     supportFeedback: 'Support & feedback',
-    sponsor: 'Sponsor',
     spotify: 'Spotify',
     soon: 'Soon',
     typography: 'Typography',

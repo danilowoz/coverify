@@ -25,7 +25,7 @@ import { UINavigationActions } from 'modules/Navigation'
 
 import { version } from '../../../package.json'
 
-type TabItems = 'newsletter' | 'sponsor' | 'welcome' | undefined
+type TabItems = 'newsletter' | 'welcome' | undefined
 
 const Header: React.FC = () => {
   const dispatch = useAppDispatch()
@@ -142,12 +142,7 @@ const Header: React.FC = () => {
                 <Logo viewBox="0 0 132 29" />
               </InternalLink>
             </Coverify>
-            <Text
-              onClick={() => handleTabClick('sponsor')}
-              css={{ marginLeft: '$s45', cursor: 'pointer' }}
-            >
-              {i18n.t('sponsor')}
-            </Text>
+
             <Text
               onClick={() => handleTabClick('newsletter')}
               css={{ marginLeft: '$s20', cursor: 'pointer' }}
@@ -186,34 +181,6 @@ const Header: React.FC = () => {
                 ×
               </Close>
               <Welcome handleClose={handelTabClose} />
-            </TabContainer>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {tabVisibility === 'sponsor' && (
-          <motion.div
-            key="content"
-            initial="collapsed"
-            animate="open"
-            exit="collapsed"
-            variants={{
-              open: { opacity: 1, height: 'auto' },
-              collapsed: { opacity: 0, height: 0 },
-            }}
-          >
-            <TabContainer>
-              <Close type="button" onClick={handelTabClose}>
-                ×
-              </Close>
-              <iframe
-                src="https://github.com/sponsors/danilowoz/card"
-                title="Sponsor danilowoz"
-                height="225"
-                width="600"
-                style={{ border: 0 }}
-              />
             </TabContainer>
           </motion.div>
         )}
