@@ -32,7 +32,7 @@ const Header: React.FC = () => {
   const user = useUser()
   const { logIn, signOut, deleteAccount } = useAuthentication()
   const [tabVisibility, setTabVisibility] = useState<TabItems>()
-  const { aboveMedium } = useBreakPoint()
+  const { aboveMedium, bellowMedium } = useBreakPoint()
 
   useLayoutEffect(() => {
     if (user) {
@@ -137,7 +137,13 @@ const Header: React.FC = () => {
           <MainMenu>
             <Coverify href="/">
               <InternalLink
-                onClick={() => setNavigationValue(i18n.t('tabs.preview'))}
+                onClick={() =>
+                  setNavigationValue(
+                    bellowMedium
+                      ? i18n.t('tabs.preview')
+                      : i18n.t('tabs.playlists')
+                  )
+                }
               >
                 <Logo viewBox="0 0 132 29" />
               </InternalLink>
