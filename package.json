@@ -1,6 +1,6 @@
 {
   "name": "coverify",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "Create your custom cover for your Spotify playlists, choose from images, colors, and fonts that express your favorite songs.",
   "url": "https://getcoverify.com/",
   "main": "index.js",
