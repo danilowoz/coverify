@@ -10,6 +10,13 @@ type FabricObject = fabric.Object & {
   text: string
 }
 
+/**
+ * Changelogs
+ * 1.0.1v - Add multiplier at the scale field
+ * Backwards incompatibility
+ */
+type TypesSchemaVersion = undefined | '1.0.1'
+
 export interface CanvasElementsSchema {
   typeConfig: {
     fontFamily: string
@@ -23,6 +30,7 @@ export interface CanvasElementsSchema {
     scaleY: number
     text: string
     fontWeight?: string
+    version?: TypesSchemaVersion
   }[]
   backgroundFilters: {
     gradients?: {
@@ -114,8 +122,14 @@ const insertElementsOnCanvas = (
 
   const canvasHeight = fabricRef?.height ?? 0
   const canvasWidth = fabricRef?.width ?? 0
+
   types?.forEach((element) => {
     if (element.text) {
+      const scale =
+        element?.version === '1.0.1'
+          ? element.scaleX * canvasWidth
+          : element.scaleX
+
       const type = new fabric.IText(element.text, {
         ...typeConfig,
         fontWeight: element.fontWeight ?? 'normal',
@@ -123,8 +137,8 @@ const insertElementsOnCanvas = (
         hasRotatingPoint: false,
         left: element.relativeLeft * canvasWidth,
         lockRotation: true,
-        scaleX: element.scaleX,
-        scaleY: element.scaleY,
+        scaleX: scale,
+        scaleY: scale,
         text: element.text,
         top: element.relativeTop * canvasHeight,
       })
@@ -195,10 +209,11 @@ export const getAllElementsPositions = (
         fill: item.fill,
         relativeLeft: round((item.left ?? 0) / canvasWidth),
         relativeTop: round((item.top ?? 0) / canvasHeight),
-        scaleX: round(item?.scaleX ?? 0),
-        scaleY: round(item?.scaleY ?? 0),
+        scaleX: round(item?.scaleX ?? 0) / canvasWidth,
+        scaleY: round(item?.scaleY ?? 0) / canvasWidth,
         text: item.text,
         fontWeight: (item as any).fontWeight,
+        version: '1.0.1',
       },
     ]
   }, [])
