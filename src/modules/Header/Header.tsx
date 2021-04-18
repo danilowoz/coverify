@@ -148,7 +148,6 @@ const Header: React.FC = () => {
                 <Logo viewBox="0 0 132 29" />
               </InternalLink>
             </Coverify>
-
             <Text
               onClick={() => handleTabClick('newsletter')}
               css={{ marginLeft: '$s20', cursor: 'pointer' }}
